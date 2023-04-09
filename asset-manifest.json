@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/law-reading-robot/static/css/main.073c9b0a.css",
+    "main.js": "/law-reading-robot/static/js/main.51f568fb.js",
+    "static/js/787.33e928be.chunk.js": "/law-reading-robot/static/js/787.33e928be.chunk.js",
+    "static/media/logo.svg": "/law-reading-robot/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/law-reading-robot/index.html",
+    "main.073c9b0a.css.map": "/law-reading-robot/static/css/main.073c9b0a.css.map",
+    "main.51f568fb.js.map": "/law-reading-robot/static/js/main.51f568fb.js.map",
+    "787.33e928be.chunk.js.map": "/law-reading-robot/static/js/787.33e928be.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.073c9b0a.css",
+    "static/js/main.51f568fb.js"
+  ]
+}

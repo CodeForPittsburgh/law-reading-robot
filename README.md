@@ -1,3 +1,7 @@
+Frontend for Law Reading Robot app.
+
+The partner repo to this is https://github.com/CodeForPittsburgh/law-reading-robot-data/tree/master
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

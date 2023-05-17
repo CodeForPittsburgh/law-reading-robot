@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import {BillData, TAGS} from "./Data";
 import React, {useState, useEffect, useMemo} from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 

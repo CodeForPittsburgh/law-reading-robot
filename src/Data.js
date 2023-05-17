@@ -6,7 +6,7 @@ export const TAGS = [
     "Environmental protection", "Consumer protection", "Labor rights", "Healthcare reform", "Education reform"
     ];
 
-class BillData {
+export class BillData {
 
     constructor(
         billNumber, // Bill Number e.g. SB106

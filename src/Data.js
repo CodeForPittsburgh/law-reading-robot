@@ -34,3 +34,19 @@ export class BillData {
 
     }
 }
+
+// Generate a random bill
+export function generateRandomBill() {
+    const billNumber = "SB" + Math.floor(Math.random() * 1000);
+    const pubDate = new Date();
+    const title = "This is a random bill";
+    const summary = "This is a random bill";
+    const link = "https://www.google.com";
+    const tags = [TAGS[Math.floor(Math.random() * TAGS.length)]];
+    const versionHistory = [];
+    const sponsors = ["John Doe"];
+    const status = "Pending";
+    const isReviewed = false;
+
+    return new BillData(billNumber, pubDate, title, summary, link, tags, versionHistory, sponsors, status, isReviewed);
+}

@@ -22,7 +22,7 @@ export class BillData {
         // TODO: More properties to add?
     ) {
         this.billNumber = billNumber;
-        this.pubDate = pubDatel
+        this.pubDate = pubDate;
         this.title = title;
         this.summary = summary;
         this.link = link;

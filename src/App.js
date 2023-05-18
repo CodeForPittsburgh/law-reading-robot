@@ -1,8 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
+import {BillData, TAGS, generateRandomBill} from "./Data";
 import React, {useState, useEffect, useMemo} from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 
+
+// An array composed of 5 random bills for testing purposes
+const bills = Array.from({length: 5}, () => generateRandomBill());
 
 //A component that takes a filename and an array of data, and creates a table with the data
 function Table({filename, data}) {

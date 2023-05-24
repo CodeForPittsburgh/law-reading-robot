@@ -8,7 +8,7 @@ const Results = (props) => {
             <h1>Summaries</h1>
             {
                 articles.map((article) => {
-                    <Entry article={article}/>   
+                   return <Entry article={article}/>   
                 })
             }
         </section>

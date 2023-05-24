@@ -1,0 +1,135 @@
+/* Styling by mike-feeney*/
+
+*, ::after, ::before {
+    margin: 0;
+    box-sizing: border-box;
+  }
+  
+  :root {
+    --navbar-height: 50px;
+    --color-primary: white;
+    --color-secondary: lightblue;
+    --color-secondary-border: rgb(118, 148, 158);
+    --color-tertiary: rgb(204, 200, 200);
+  }
+  
+  * {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+  }
+  
+  article h2 {
+    text-align: center;
+    padding: 0 0 15px 0;
+    font-size: 20px;
+    font-family: 'Cinzel', serif;
+  
+  }
+  
+  article h3 {
+    padding: 5px;
+    font-size: 18px;
+  }
+  
+  article p {
+    line-height: 1.5;
+  }
+  
+  article section {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    border-top: 1px dotted gray;
+  }
+  
+  body {
+    position: relative;
+  }
+  
+  .bill-details span {
+    padding: 5px;
+  }
+  
+  dialog {
+    position: absolute;
+    top: 25%;
+    left: calc(50% - 200px);
+    max-width: 400px;
+  }
+  
+  footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row; 
+    height: var(--navbar-height);
+    background: var(--color-secondary);
+    
+  }
+  
+  footer span {
+    padding: 20px;
+  }
+  
+  h1 {
+    text-align: center;
+    padding: 20px;
+    font-size: 20px;
+    font-family: 'Cinzel', serif;
+  }
+  
+  main {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-inline: auto;
+    height: calc(100vh - (var(--navbar-height)));
+    background: var(--color-tertiary);
+    overflow-y: scroll;
+  }
+  
+  nav {
+    height: var(--navbar-height);
+    background: var(--color-secondary);
+    border-bottom: 3px solid var(--color-secondary-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row; 
+  }
+  
+  nav span {
+    padding: 20px;
+    font-size: 20px;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+  }
+  
+  nav div {
+    padding: 20px;
+  }
+  
+  .summaries {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: var(--color-primary);
+    box-shadow: 10px 5px 5px gray;
+    border-radius: 3px;
+  
+  }
+  
+  .summary {
+    width: 80%;
+    border-top: 2px ridge var(--color-secondary-border);
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .summary p {
+    padding: 5px;
+  }
+  
+  .summary a {
+    padding: 5px;
+  }
+  
+  
+  

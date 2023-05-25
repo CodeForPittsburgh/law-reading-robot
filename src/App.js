@@ -3,7 +3,7 @@ import './App.css';
 import {BillData, TAGS, generateRandomBill} from "./Data";
 import React, {useState, useEffect, useMemo} from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
-
+import { supabase } from './supabaseClient'
 
 // An array composed of 5 random bills for testing purposes
 const bills = Array.from({length: 5}, () => generateRandomBill());
@@ -142,11 +142,37 @@ const rssFiles = [
     "SenateSessionNotes",
 ]
 
+//An example of how to retreive data from Supabase
+function BillsFromDB () {
+  const [billsFromDB, setBillsFromDB] = useState([]);
+
+  async function getBillsFromDB() {
+    const { data } = await supabase.from("Bills").select();
+    setBillsFromDB(data);
+  }
+
+  useEffect(() => {
+    getBillsFromDB();
+  }, [])
+
+  return (
+      <div>
+          <h2>Bill Data From DB</h2>
+          <ul>
+          {billsFromDB.map((bill) => (
+            <li key={bill.title}><strong>Bill Title:</strong> {bill.title}</li>
+          ))}
+          </ul>
+      </div>
+  );
+}
 
 function App() {
   return (
       <Router>
           <div className="App">
+              <BillsFromDB/>
+              <h2>Bill Data from RSS feeds</h2>
               <ul>
                   {rssFiles.map(name => (
                       <li key={name}>

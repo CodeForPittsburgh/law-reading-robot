@@ -3,6 +3,50 @@ import './App.css';
 import {BillData, TAGS, generateRandomBill} from "./Data";
 import React, {useState, useEffect, useMemo} from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+import FilterSidebarContainer from "./components/filter_sidebar/filterSidebarContainer";
+
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
+const MainAppContainer = () => {
+    return (
+        <Router>
+            <Container>
+                <Row>
+                    <Col sm={3}>
+                        <FilterSidebarContainer/>
+                        {/*Home*/}
+                        {/*<Link to="/">Home</Link>*/}
+                    </Col>
+                    <Col>
+                        <SimpleBillTable/>
+                        {/*<Link to="/results">Results</Link>*/}
+                    </Col>
+                </Row>
+                {/*<Row>*/}
+                {/*    <Col>*/}
+                {/*        <Routes>*/}
+                {/*            /!*<Route path="/" element={<Home />} />*!/*/}
+                {/*            /!*<Route path="/results" element={<Results />} />*!/*/}
+                {/*        </Routes>*/}
+                {/*    </Col>*/}
+                {/*</Row>*/}
+            </Container>
+        </Router>
+    );
+}
+
+function ContainerFluidExample() {
+    return (
+        <Container fluid>
+            <Row>
+                <Col>1 of 1</Col>
+            </Row>
+        </Container>
+    );
+}
+
 
 
 // An array composed of 5 random bills for testing purposes
@@ -142,27 +186,50 @@ const rssFiles = [
     "SenateSessionNotes",
 ]
 
+const SimpleBillTable = () => {
+    return (
+        // <Router>
+        <>
+            <ul>
+                {rssFiles.map(name => (
+                    <li key={name}>
+                        <Link to={`/${name}`}>{name}</Link>
+                    </li>
+                ))}
+            </ul>
+            <Routes>
+                {rssFiles.map(name => (
+                    <Route key={name} path={`/${name}`} element={<CsvTable filename={name} />} />
+                ))}
+            </Routes>
+        </>
+    );
+}
+
 
 function App() {
   return (
-      <Router>
-          <div className="App">
-              <ul>
-                  {rssFiles.map(name => (
-                      <li key={name}>
-                          <Link to={`/${name}`}>{name}</Link>
-                      </li>
-                  ))}
-              </ul>
-              <Routes>
-                  {rssFiles.map(name => (
-                      <Route key={name} path={`/${name}`} element={<CsvTable filename={name} />} />
-                  ))}
-              </Routes>
-
-              {/*<CsvTable/>*/}
-          </div>
-      </Router>
+      <MainAppContainer/>
+      // <Router>
+      //     <div className="App">
+      //         <ContainerFluidExample/>
+      //
+      //         <ul>
+      //             {rssFiles.map(name => (
+      //                 <li key={name}>
+      //                     <Link to={`/${name}`}>{name}</Link>
+      //                 </li>
+      //             ))}
+      //         </ul>
+      //         <Routes>
+      //             {rssFiles.map(name => (
+      //                 <Route key={name} path={`/${name}`} element={<CsvTable filename={name} />} />
+      //             ))}
+      //         </Routes>
+      //
+      //         {/*<CsvTable/>*/}
+      //     </div>
+      // </Router>
 
   );
 }

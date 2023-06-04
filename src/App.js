@@ -4,6 +4,7 @@ import {BillData, TAGS, generateRandomBill} from "./Data";
 import React, {useState, useEffect, useMemo} from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import FilterSidebarContainer from "./components/filter_sidebar/filterSidebarContainer";
+import { supabase } from './supabaseClient';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -19,6 +20,9 @@ const MainAppContainer = () => {
                         {/*Home*/}
                         {/*<Link to="/">Home</Link>*/}
                     </Col>
+                    {/* <Col>
+                        <BillsFromDB />
+                    </Col> */}
                     <Col>
                         <SimpleBillTable/>
                         {/*<Link to="/results">Results</Link>*/}
@@ -204,6 +208,32 @@ const SimpleBillTable = () => {
             </Routes>
         </>
     );
+}
+
+//An example of how to retreive data from Supabase
+//You will need to add an .env.local file with the REACT_APP_SUPABASE_URL and REACT_APP_SUPABASE_ANON_KEY to connect to Supabase.
+function BillsFromDB () {
+  const [billsFromDB, setBillsFromDB] = useState([]);
+
+  async function getBillsFromDB() {
+    const { data } = await supabase.from("Bills").select();
+    setBillsFromDB(data);
+  }
+
+  useEffect(() => {
+    getBillsFromDB();
+  }, [])
+
+  return (
+      <div>
+          <h2>Bill Data From DB</h2>
+          <ul>
+          {billsFromDB.map((bill) => (
+            <li key={bill.title}><strong>Bill Title:</strong> {bill.title}</li>
+          ))}
+          </ul>
+      </div>
+  );
 }
 
 

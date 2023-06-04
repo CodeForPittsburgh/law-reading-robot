@@ -6,6 +6,10 @@ The partner repo to this is https://github.com/CodeForPittsburgh/law-reading-rob
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Connecting to Database
+
+You will need to get the DB string and key from another Code for Pittsburgh member and add them to a .env.local file on your machine to access the database for this app. Please ask in the Code for Pittsburgh Slack channel for these details.
+
 ## Available Scripts
 
 In the project directory, you can run:

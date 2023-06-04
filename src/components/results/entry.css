@@ -22,7 +22,6 @@
     padding: 0 0 15px 0;
     font-size: 20px;
     font-family: 'Cinzel', serif;
-  
   }
   
   article h3 {
@@ -85,6 +84,10 @@
     background: var(--color-tertiary);
     overflow-y: scroll;
   }
+
+  li {
+    list-style-type: none;
+  }
   
   nav {
     height: var(--navbar-height);
@@ -110,8 +113,8 @@
   .summaries {
     max-width: 1200px;
     margin: 0 auto;
-    background: var(--color-primary);
-    box-shadow: 10px 5px 5px gray;
+    /* background: var(--color-primary); */
+    /* box-shadow: 10px 5px 5px gray; */
     border-radius: 3px;
   
   }

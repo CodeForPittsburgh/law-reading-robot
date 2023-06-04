@@ -1,42 +1,27 @@
 import logo from './logo.svg';
 import './App.css';
 import {BillData, TAGS, generateRandomBill} from "./Data";
+import Results from "./components/results/Results";
+import Header from "./components/header/Header";
+import FilterSidebarContainer from "./components/filter_sidebar/filterSidebarContainer";
 import React, {useState, useEffect, useMemo} from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
-import FilterSidebarContainer from "./components/filter_sidebar/filterSidebarContainer";
-import { supabase } from './supabaseClient';
+// import { supabase } from './supabaseClient';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+
 const MainAppContainer = () => {
     return (
         <Router>
-            <Container>
-                <Row>
-                    <Col sm={3}>
-                        <FilterSidebarContainer/>
-                        {/*Home*/}
-                        {/*<Link to="/">Home</Link>*/}
-                    </Col>
-                    {/* <Col>
-                        <BillsFromDB />
-                    </Col> */}
-                    <Col>
-                        <SimpleBillTable/>
-                        {/*<Link to="/results">Results</Link>*/}
-                    </Col>
-                </Row>
-                {/*<Row>*/}
-                {/*    <Col>*/}
-                {/*        <Routes>*/}
-                {/*            /!*<Route path="/" element={<Home />} />*!/*/}
-                {/*            /!*<Route path="/results" element={<Results />} />*!/*/}
-                {/*        </Routes>*/}
-                {/*    </Col>*/}
-                {/*</Row>*/}
-            </Container>
+            <Header/>
+            <BasicTabs/>
         </Router>
     );
 }
@@ -212,30 +197,112 @@ const SimpleBillTable = () => {
 
 //An example of how to retreive data from Supabase
 //You will need to add an .env.local file with the REACT_APP_SUPABASE_URL and REACT_APP_SUPABASE_ANON_KEY to connect to Supabase.
-function BillsFromDB () {
-  const [billsFromDB, setBillsFromDB] = useState([]);
+// function BillsFromDB () {
+//   const [billsFromDB, setBillsFromDB] = useState([]);
 
-  async function getBillsFromDB() {
-    const { data } = await supabase.from("Bills").select();
-    setBillsFromDB(data);
-  }
+//   async function getBillsFromDB() {
+//     const { data } = await supabase.from("Bills").select();
+//     setBillsFromDB(data);
+//   }
 
-  useEffect(() => {
-    getBillsFromDB();
-  }, [])
+//   useEffect(() => {
+//     getBillsFromDB();
+//   }, [])
+
+//   return (
+//       <div>
+//           <h2>Bill Data From DB</h2>
+//           <ul>
+//           {billsFromDB.map((bill) => (
+//             <li key={bill.title}><strong>Bill Title:</strong> {bill.title}</li>
+//           ))}
+//           </ul>
+//       </div>
+//   );
+// }
+
+//TabPanel, a11yProps, and BasicTabs are boilerplate from MUI used to make tabs in the app
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
 
   return (
-      <div>
-          <h2>Bill Data From DB</h2>
-          <ul>
-          {billsFromDB.map((bill) => (
-            <li key={bill.title}><strong>Bill Title:</strong> {bill.title}</li>
-          ))}
-          </ul>
-      </div>
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography component="div">{children}</Typography>
+        </Box>
+      )}
+    </div>
   );
 }
 
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
+function BasicTabs() {
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  return (
+    <Box sx={{ width: '100%' }}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered>
+          <Tab label="Prototype" {...a11yProps(0)} />
+          <Tab label="Rss Data" {...a11yProps(1)} />
+          <Tab label="Supabase Data" {...a11yProps(2)} />
+        </Tabs>
+      </Box>
+      <TabPanel value={value} index={0}>
+      <Container>
+                <Row>
+                    <Col sm={3}>
+                        <FilterSidebarContainer/>
+                        {/*Home*/}
+                        {/*<Link to="/">Home</Link>*/}
+                    </Col>
+                    <Col>
+                        <Results articles={bills}/>
+                    </Col>
+                </Row>
+            </Container>
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+      <Container>
+                <Row>
+                    <Col>
+                        <SimpleBillTable/>
+                        <Link to="/results">Results</Link>
+                    </Col>
+                </Row>
+            </Container>
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+      <Container>
+                <Row>
+                    <Col>
+                    
+                        {/* <BillsFromDB /> */}
+                        <p>Mike can help you get this tab set up.</p>
+                    </Col>
+                </Row>
+            </Container>
+      </TabPanel>
+    </Box>
+  );
+}
 
 function App() {
   return (

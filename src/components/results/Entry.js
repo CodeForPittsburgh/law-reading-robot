@@ -3,26 +3,28 @@ import './entry.css'
 
 const Entry = (props) => {
     const { article } = props
-    const { billName, billSummary} = article
+    const { billNumber, title, summary, link, tags, status, sponsors,} = article
     return (
-        <article class="summary">
-          <h2 data-bill-name={billName}>{billName}</h2>
+        <article className="summary">
+          <h2 data-bill-name={billNumber}>{billNumber}</h2>
 
           <section>
             <h3>Summary:</h3>
-            <p data-bill-summary={billSummary}>
-              {billSummary}
+            <p data-bill-summary={summary}>
+              {summary}
             </p>
           </section>
 
-          <section class="bill-details">
+          <section className="bill-details">
             <h3>Details:</h3>
             <div>
               <span>Other info</span>
-              <span data-bill-date={billDate}>{billDate}</span>
-              <Link data-bill-link={billLink} target="_blank" to={billLink}>Full Text</Link>
+              {/* <span data-bill-date={pubDate}>{pubDate}</span> */}
+              <Link data-bill-link={link} target="_blank" to={link}>Full Text</Link>
             </div>
           </section>
         </article>
     )
 }
+
+export default Entry;

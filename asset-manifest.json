@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/law-reading-robot/static/css/main.073c9b0a.css",
-    "main.js": "/law-reading-robot/static/js/main.e2a3a771.js",
+    "main.css": "/law-reading-robot/static/css/main.2a88cb33.css",
+    "main.js": "/law-reading-robot/static/js/main.f7245296.js",
     "static/js/787.33e928be.chunk.js": "/law-reading-robot/static/js/787.33e928be.chunk.js",
     "static/media/HouseBillsAndResolutions.csv": "/law-reading-robot/static/media/HouseBillsAndResolutions.0086c541f73b0643cb57.csv",
     "static/media/SenateBillsAndResolutions.csv": "/law-reading-robot/static/media/SenateBillsAndResolutions.71045d2cab61068deea5.csv",
@@ -11,12 +11,12 @@
     "static/media/HouseCoSponsorshipMemoranda.csv": "/law-reading-robot/static/media/HouseCoSponsorshipMemoranda.2319cd8f29395e912b4f.csv",
     "static/media/HouseLegislativeJournals.csv": "/law-reading-robot/static/media/HouseLegislativeJournals.eb1fbfc60ef017baab9e.csv",
     "static/media/SenateCoSponsorshipMemoranda.csv": "/law-reading-robot/static/media/SenateCoSponsorshipMemoranda.edd4bbae8f030067f46b.csv",
-    "static/media/HouseCommitteeMeetingSchedule.csv": "/law-reading-robot/static/media/HouseCommitteeMeetingSchedule.c2300a2e0adf11e54ac4.csv",
+    "static/media/HouseCommitteeMeetingSchedule.csv": "/law-reading-robot/static/media/HouseCommitteeMeetingSchedule.82f686e111c474c83273.csv",
     "static/media/SenateRollCallVotes.csv": "/law-reading-robot/static/media/SenateRollCallVotes.9d0d9903a54d4df8eb94.csv",
     "static/media/SenateCommitteeAssignments.csv": "/law-reading-robot/static/media/SenateCommitteeAssignments.1c915a6e6224fe46d88e.csv",
     "static/media/HouseRollCallVotes.csv": "/law-reading-robot/static/media/HouseRollCallVotes.703b01e45dafb2eb02cf.csv",
     "static/media/SenateSessionCalendar.csv": "/law-reading-robot/static/media/SenateSessionCalendar.2408a8d51a78a5381d03.csv",
-    "static/media/SenateCommitteeMeetingSchedule.csv": "/law-reading-robot/static/media/SenateCommitteeMeetingSchedule.6b6b74cd3cd72e88b628.csv",
+    "static/media/SenateCommitteeMeetingSchedule.csv": "/law-reading-robot/static/media/SenateCommitteeMeetingSchedule.4aa2ac73e412cee29f5b.csv",
     "static/media/SenateSessionNotes.csv": "/law-reading-robot/static/media/SenateSessionNotes.d8fb3a68a4e7b539ef87.csv",
     "static/media/SenateExecutiveNominationsCalendar.csv": "/law-reading-robot/static/media/SenateExecutiveNominationsCalendar.b216cf2e779a073e4430.csv",
     "static/media/HouseDailySessionReports.csv": "/law-reading-robot/static/media/HouseDailySessionReports.0601c6d7408e107f4af1.csv",
@@ -25,12 +25,12 @@
     "static/media/SenateLegislativeJournals.csv": "/law-reading-robot/static/media/SenateLegislativeJournals.8613e07501dff01c3796.csv",
     "static/media/HouseVotedAmendments.csv": "/law-reading-robot/static/media/HouseVotedAmendments.273fe05f41cef95c88b8.csv",
     "index.html": "/law-reading-robot/index.html",
-    "main.073c9b0a.css.map": "/law-reading-robot/static/css/main.073c9b0a.css.map",
-    "main.e2a3a771.js.map": "/law-reading-robot/static/js/main.e2a3a771.js.map",
+    "main.2a88cb33.css.map": "/law-reading-robot/static/css/main.2a88cb33.css.map",
+    "main.f7245296.js.map": "/law-reading-robot/static/js/main.f7245296.js.map",
     "787.33e928be.chunk.js.map": "/law-reading-robot/static/js/787.33e928be.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.073c9b0a.css",
-    "static/js/main.e2a3a771.js"
+    "static/css/main.2a88cb33.css",
+    "static/js/main.f7245296.js"
   ]
 }

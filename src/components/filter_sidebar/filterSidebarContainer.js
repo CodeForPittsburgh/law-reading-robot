@@ -21,7 +21,8 @@ class FilterSidebarContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selected: []
+            selected: [],
+            search: ""
         }
 
         // Create a ref for each category component
@@ -51,14 +52,23 @@ class FilterSidebarContainer extends React.Component {
             selected = selected.concat(this.categoryComponents[category].current.getSelected());
         })
         console.log(selected)
+        console.log(this.state.search)
         // Update selected state
         this.setState({selected: selected});
     }
 
     // Component for search button that, on click, calls getSelected
-    SearchButton = () => {
+    SearchBar = () => {
         return (
-            <button onClick={() => this.getSelected()}>Search</button>
+            <div>
+                <input
+                    type="text"
+                    placeholder="Search..."
+                    value={this.state.search}
+                    onChange={(e) => this.setState({search: e.target.value})}
+                />
+                <button onClick={() => this.getSelected(this.state.search)}>Search</button>
+            </div>
         )
     }
 
@@ -80,7 +90,7 @@ class FilterSidebarContainer extends React.Component {
                     <Row>
                         <Col>
                             <h2>Search</h2>
-                            {this.SearchButton()}
+                            {this.SearchBar()}
                         </Col>
                     </Row>
                 </Container>

@@ -7,11 +7,14 @@ import {
   bindTrigger,
   bindMenu,
 } from "material-ui-popup-state/hooks";
+import "./PopupMenu.css"
+
+
 
 const MenuPopupState = () => {
   const popupState = usePopupState({ variant: "popover", popupId: "demoMenu" });
   return (
-    <div>
+    <div className={"mobile"}>
       <Button variant="contained" {...bindTrigger(popupState)}>
         <MenuIcon></MenuIcon>
       </Button>

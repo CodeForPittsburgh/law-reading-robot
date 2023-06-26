@@ -1,10 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
-import {BillData, TAGS, generateRandomBill} from "./Data";
-import Results from "./components/results/Results";
 import Header from "./components/header/Header";
-import FilterSidebarContainer from "./components/filter_sidebar/filterSidebarContainer";
-import React, {useState, useEffect, useMemo} from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import BasicTabs from './components/BasicTabs';
 // import { supabase } from './supabaseClient';
@@ -13,10 +10,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+
 
 const MainAppContainer = () => {
     return (
@@ -39,8 +33,7 @@ function ContainerFluidExample() {
 
 
 
-// An array composed of 5 random bills for testing purposes
-const bills = Array.from({length: 5}, () => generateRandomBill());
+
 
 //A component that takes a filename and an array of data, and creates a table with the data
 function Table({filename, data}) {
@@ -104,45 +97,6 @@ function Table({filename, data}) {
     )
 }
 
-
-
-function CsvTable({ filename }) {
-    const [loading, setLoading] = useState(true);
-    const [data, setData] = useState([]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const csvFile = require(`./assets/csvs/${filename}.csv`);
-            const response = await fetch(csvFile);
-            const text = await response.text();
-            const rows = text.split("\n");
-            // Rows and headers are pipe-delimited, per how they are stored in the repo
-            const headers = rows[0].split("|");
-            const rowsData = rows.slice(1).map((row) => row.split("|"));
-            const newData = rowsData.map((row) =>
-                headers.reduce((obj, key, index) => {
-                    obj[key] = row[index];
-                    return obj;
-                }, {})
-            );
-            setData(newData);
-            setLoading(false);
-        };
-
-        fetchData();
-    }, [filename]);
-
-    return (
-        <div>
-            {loading ? (
-                <p>Loading...</p>
-            ) : (
-                <Table filename={filename} data={data} />
-            )}
-        </div>
-    );
-}
-
 function Page({ name }) {
     return (
         <div>
@@ -153,48 +107,8 @@ function Page({ name }) {
 }
 
 const pages = ['Home', 'About', 'Contact'];
-const rssFiles = [
-    "HouseBillsAndResolutions",
-    "HouseCommitteeAssignments",
-    "HouseCommitteeMeetingSchedule",
-    "HouseCoSponsorshipMemoranda",
-    "HouseDailySessionReports",
-    "HouseLegislativeJournals",
-    "HouseMembers",
-    "HouseRollCallVotes",
-    "HouseVotedAmendments",
-    "SenateBillsAndResolutions",
-    "SenateCommitteeAssignments",
-    "SenateCommitteeMeetingSchedule",
-    "SenateCoSponsorshipMemoranda",
-    "SenateExecutiveNominationsCalendar",
-    "SenateFloorAmendments",
-    "SenateLegislativeJournals",
-    "SenateMembers",
-    "SenateRollCallVotes",
-    "SenateSessionCalendar",
-    "SenateSessionNotes",
-]
 
-const SimpleBillTable = () => {
-    return (
-        // <Router>
-        <>
-            <ul>
-                {rssFiles.map(name => (
-                    <li key={name}>
-                        <Link to={`/${name}`}>{name}</Link>
-                    </li>
-                ))}
-            </ul>
-            <Routes>
-                {rssFiles.map(name => (
-                    <Route key={name} path={`/${name}`} element={<CsvTable filename={name} />} />
-                ))}
-            </Routes>
-        </>
-    );
-}
+
 
 //An example of how to retreive data from Supabase
 //You will need to add an .env.local file with the REACT_APP_SUPABASE_URL and REACT_APP_SUPABASE_ANON_KEY to connect to Supabase.
@@ -222,33 +136,8 @@ const SimpleBillTable = () => {
 //   );
 // }
 
-//TabPanel, a11yProps, and BasicTabs are boilerplate from MUI used to make tabs in the app
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
 
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography component="div">{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
 
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
 
 
 

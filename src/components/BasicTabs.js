@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useMemo} from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 
-
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -16,9 +15,6 @@ import FilterSidebarContainer from "../components/filter_sidebar/filterSidebarCo
 import Results from "../components/results/Results";
 
 import {BillData, TAGS, generateRandomBill} from "../Data";
-
-
-
 
 // An array composed of 5 random bills for testing purposes
 const bills = Array.from({length: 5}, () => generateRandomBill());

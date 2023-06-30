@@ -9,7 +9,7 @@ import { FilterButton } from "../Filter/FilterCategory";
  **/
 const Results = (props) => {
   const { articles } = props;
-  const { activeTags, getCategory } = useFilter();
+  const { activeTags } = useFilter();
 
   const filteredArticles = useMemo(() => {
     const filtered = articles.filter((article) => {

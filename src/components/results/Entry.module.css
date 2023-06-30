@@ -1,0 +1,43 @@
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  border-top: 1px dotted gray;
+}
+
+li {
+  list-style-type: none;
+}
+
+.title {
+  text-align: center;
+  margin-block: var(--space-md);
+}
+
+.entry {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  /** slightly lighter */
+  border-top: 4px solid #ddd;
+}
+
+.summary,
+.details {
+  width: calc(100% - var(--space-md) * 2);
+  padding-inline: var(--space-md);
+  /* Clamp no bigger then --space-md, no smaller then --space-sm */
+  padding-right: clamp(var(--space-sm), 3vw, var(--space-lg));
+  display: flex;
+  align-self: flex-end;
+  flex-direction: row;
+  gap: 1rem;
+  padding-top: var(--space-md);
+  /* Border dashed top  with longer dashes*/
+  border-top: 4.5px dashed #ddd;
+}
+
+.details {
+  justify-content: space-between;
+  align-items: center;
+}

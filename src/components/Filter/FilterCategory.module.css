@@ -1,0 +1,14 @@
+.active {
+  background: white;
+}
+
+.button {
+  width: fit-content;
+  font-size: 0.9rem;
+}
+
+.details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}

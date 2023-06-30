@@ -1,0 +1,8 @@
+.title {
+  text-align: center;
+  margin-block: var(--space-md);
+}
+
+.summaries {
+  flex-direction: column;
+}

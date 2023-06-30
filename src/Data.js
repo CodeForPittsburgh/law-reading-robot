@@ -129,13 +129,19 @@ export class BillData {
   }
 }
 
+function randomDate(start, end) {
+  return new Date(
+    start.getTime() + Math.random() * (end.getTime() - start.getTime())
+  );
+}
+
 /**
  * Generate a random bill
  * @returns {BillData} A random bill
  */
 export function generateRandomBill() {
   const billNumber = "SB" + Math.floor(Math.random() * 1000);
-  const pubDate = new Date();
+  const pubDate = randomDate(new Date(2020, 0, 1), new Date());
   const title = "This is a random bill";
   const summary =
     "Quodsi haberent magnalia inter potentiam et divitias, et non illam guidem haec eo spectant haec quoque vos omnino desit illud quo solo felicitatis libertatisque perficiuntur.";

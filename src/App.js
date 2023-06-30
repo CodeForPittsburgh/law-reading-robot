@@ -30,30 +30,13 @@ const theme = createTheme({
 const MainAppContainer = () => {
   return (
     <Router>
-      <Header />
-      <BasicTabs />
+      <ThemeProvider theme={theme}>
+        <Header />
+        <BasicTabs />
+      </ThemeProvider>
     </Router>
   );
 };
-
-function ContainerFluidExample() {
-  return (
-    <Container fluid>
-      <Row>
-        <Col>1 of 1</Col>
-      </Row>
-    </Container>
-  );
-}
-
-function Page({ name }) {
-  return (
-    <div>
-      <h1>{name}</h1>
-      <p>This is the {name} page.</p>
-    </div>
-  );
-}
 
 const pages = ["Home", "About", "Contact"];
 
@@ -85,9 +68,7 @@ const pages = ["Home", "About", "Contact"];
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <MainAppContainer />
-    </ThemeProvider>
+    <MainAppContainer />
     // <Router>
     //     <div className="App">
     //         <ContainerFluidExample/>

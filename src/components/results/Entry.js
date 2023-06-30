@@ -5,7 +5,7 @@ import S from "./Entry.module.css";
  **/
 const Entry = (props) => {
   const { article } = props;
-  const { billNumber, title, summary, link, tags, status, sponsors } = article;
+  const { billNumber, summary, link, tags, status, sponsors } = article;
 
   return (
     <article className={S.entry}>
@@ -20,7 +20,14 @@ const Entry = (props) => {
       </div>
       <div className={S.details}>
         <h5 className={S.title}>Details:</h5>
-        <span>Other info</span>
+
+        <div className={S.sponsors}>
+          {sponsors.map((sponsor, i) => (
+            <span key={`${sponsor}-${i}`} data-bill-sponsor={sponsor}>
+              {sponsor}
+            </span>
+          ))}
+        </div>
         {/* <span data-bill-date={pubDate}>{pubDate}</span> */}
         <Link data-bill-link={link} target="_blank" to={link}>
           Full Text

@@ -3,7 +3,7 @@ import { Link, Route, Routes } from "react-router-dom";
 import { rssFiles } from "../Data";
 
 import { Container, Row, Col } from "react-bootstrap";
-import { Tabs, Tab, Box, Typography } from "@mui/material/Tabs";
+import { Tabs, Tab, Box, Typography } from "@mui/material";
 
 import { Home } from "../pages";
 

@@ -1,6 +1,7 @@
 import React from "react";
 import { Col } from "react-bootstrap";
 import { FilterProvider, FilterContainer } from "../../components/Filter";
+import Results from "../../components/Results/Results";
 import { randomBills } from "../../Data";
 import S from "./Home.module.css";
 

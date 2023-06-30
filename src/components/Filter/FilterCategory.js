@@ -40,7 +40,7 @@ export const FilterButton = ({ tag }) => {
       const idx = category?.tags.findIndex((t) => t.name === tag);
       return category?.tags[idx]?.active;
     },
-    [getCategory, filter, categoryIdx, tag]
+    [filter, categoryIdx, tag]
   );
 
   /** @type {HandleSelect} */

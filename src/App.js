@@ -1,7 +1,7 @@
 import Header from "./components/Header/Header";
 import BasicTabs from "./components/BasicTabs";
 import React from "react";
-import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 // import { supabase } from './supabaseClient';
 import { createTheme } from "@mui/material";
 
@@ -34,8 +34,6 @@ const MainAppContainer = () => {
     </Router>
   );
 };
-
-const pages = ["Home", "About", "Contact"];
 
 //An example of how to retreive data from Supabase
 //You will need to add an .env.local file with the REACT_APP_SUPABASE_URL and REACT_APP_SUPABASE_ANON_KEY to connect to Supabase.

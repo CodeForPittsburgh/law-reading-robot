@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Route, Link, Routes, Router } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -61,13 +61,15 @@ const SimpleBillTable = () => {
         ))}
       </ul>
       {/*  This breaks if loaded to slowly. */}
-      {/* {rssFiles?.map((name) => (
-        <Route
-          key={name}
-          path={`/${name}`}
-          element={<CsvTable filename={name} />}
-        />
-      )) || <Route path="*" element={<h1>404: Page not found</h1>} />} */}
+      <Routes>
+        {[rssFiles?.[0]].map((name) => (
+          <Route
+            key={name}
+            path={`/${name}`}
+            element={<CsvTable filename={name} />}
+          />
+        )) || <Route path="*" element={<h1>404: Page not found</h1>} />}
+      </Routes>
     </>
   );
 };

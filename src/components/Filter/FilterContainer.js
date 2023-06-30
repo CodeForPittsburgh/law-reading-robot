@@ -24,6 +24,7 @@ export const FilterContainer = () => {
               <Accordion
                 className={S.accordion}
                 style={{ boxShadow: "none", border: "none" }}
+                key={`${category.name}-${i}`}
               >
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   {category.name}

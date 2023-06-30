@@ -1,14 +1,5 @@
-import logo from "./logo.svg";
-import "./App.css";
-import Header from "./components/header/Header";
-import React from "react";
-import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
-import BasicTabs from "./components/BasicTabs";
-import logo from "./logo.svg";
-import { BillData, TAGS, generateRandomBill } from "./Data";
-import Results from "./components/results/Results";
 import Header from "./components/Header/Header";
-import FilterContainer from "./components/Filter/FilterContainer";
+import BasicTabs from "./components/BasicTabs";
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 // import { supabase } from './supabaseClient';
@@ -17,10 +8,6 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Box from "@mui/material/Box";
-import FilterProvider from "./components/Filter/FilterProvider";
 import { ThemeProvider } from "@mui/material";
 
 const theme = createTheme({

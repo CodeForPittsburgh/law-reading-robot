@@ -1,18 +1,61 @@
 // A constant containing all tags that can be applied to a bill
 export const TAGS = [
-  "Legislative reform",
-  "Public policy",
-  "Governance",
-  "Social justice",
-  "Equality",
-  "Human rights",
-  "Environmental protection",
-  "Consumer protection",
-  "Labor rights",
-  "Healthcare reform",
-  "Education reform",
+  {
+    name: "Legislative reform",
+    category: 0,
+    id: 1,
+  },
+  {
+    name: "Public policy",
+    category: 0,
+    id: 2,
+  },
+  {
+    name: "Governance",
+    category: 0,
+    id: 3,
+  },
+  {
+    name: "Social justice",
+    category: 1,
+    id: 4,
+  },
+  {
+    name: "Equality",
+    category: 1,
+    id: 5,
+  },
+  {
+    name: "Human rights",
+    category: 1,
+    id: 6,
+  },
+  {
+    name: "Environmental protection",
+    category: 2,
+    id: 7,
+  },
+  {
+    name: "Consumer protection",
+    category: 2,
+    id: 8,
+  },
+  {
+    name: "Labor rights",
+    category: 2,
+    id: 9,
+  },
+  {
+    name: "Healthcare reform",
+    category: 3,
+    id: 10,
+  },
+  {
+    name: "Education reform",
+    category: 3,
+    id: 11,
+  },
 ];
-
 /**
  * A constant containing all categories that can be applied to a bill
  * @type {BillData}
@@ -99,8 +142,8 @@ export function generateRandomBill() {
   const link = "https://www.google.com";
   // Generate multiple random tags
   const tags = [
-    TAGS[Math.floor(Math.random() * TAGS.length)],
-    TAGS[Math.floor(Math.random() * TAGS.length)],
+    TAGS[Math.floor(Math.random() * TAGS.length)].name,
+    TAGS[Math.floor(Math.random() * TAGS.length)].name,
   ];
   const versionHistory = [];
   const sponsors = ["John Doe"];

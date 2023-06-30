@@ -19,7 +19,7 @@ li {
   flex-direction: column;
   justify-content: flex-end;
   /** slightly lighter */
-  border-top: 4px solid #ddd;
+  border-top: var(--border-small);
 }
 
 .summary,

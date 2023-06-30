@@ -1,15 +1,11 @@
 import { Link } from "react-router-dom";
 import S from "./Entry.module.css";
-import { useFilter } from "../Filter/FilterProvider";
 /**
  * @param {EntryProps} props
  **/
 const Entry = (props) => {
-  const { filter, activeTags } = useFilter();
-  console.log(filter);
   const { article } = props;
   const { billNumber, title, summary, link, tags, status, sponsors } = article;
-  console.log(activeTags);
 
   return (
     <article className={S.entry}>

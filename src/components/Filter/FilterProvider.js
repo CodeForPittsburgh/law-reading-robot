@@ -1,6 +1,12 @@
 import { useState, createContext, useContext, useEffect, useMemo } from "react";
+import { findCategory } from "./FilterCategory";
 
-const toCategoryFilter = (categories) => {
+/**
+ * Dto for a filter tag.
+ * @param {import("./FilterContainer").Category[]} categories
+ * @returns {Filter[]}
+ */
+const toFilter = (categories) => {
   let offset = 0;
   return categories.map((category, i) => {
     offset++;
@@ -10,6 +16,7 @@ const toCategoryFilter = (categories) => {
         id: i + j + offset - 1,
         name: tag,
         active: false,
+        category: i,
       };
     });
     return {
@@ -40,36 +47,14 @@ const CATEGORY_MOCK = [
 ];
 
 /**
- * @callback changeFilterCallback
- * @param {string|number} key
- * @param {unkown} value
- */
-
-/**
- * @callback getFilterCallback
- * @param {string|number} key
- * @param {unkown} value
- * @returns {number}
- * */
-
-/**
- * @typedef FilterContext
- * @type {object}
- * @property {object} [filter] - key and values used to filter.
- * @property {changeFilterCallback} [handleChange] - callback used to set keys and value on filter
- * @property {getFilterCallback} [getFilter] - callback used to get index of filter with given key and value
- * @property {FilterCategory[]} [activeTags] - array of active tags
- */
-
-/**
  * Import the filter context to access and change filter values.
  * This must be used within the {@link FilterProvider} component,
  * @returns {FilterContext}
  */
 export const FilterContext = createContext({
-  /** @type {Array} */ filter: [],
+  /** @type {Filter[]} */ filter: [],
   /** @type {changeFilterCallback} */ handleChange: () => {},
-  /** @type {getFilterCallback} */ getFilter: () => {},
+  /** @type {getCategoryCallback} */ getCategory: () => {},
   /** @type {FilterCategory[]} */ activeTags: [],
 });
 
@@ -90,30 +75,32 @@ export const useFilterContext = (categories) => {
     setFilter(values);
   };
 
-  /** Returns array of active tags
-   * @type {FilterCategory[]}
-   */
-  const activeTags = useMemo(() => {
-    const tags = [];
-    filter.forEach((category) => {
-      category.tags.forEach((tag) => {
-        if (tag.active) tags.push();
-      });
-    });
-    return tags;
-  }, [filter]);
-
-  /** Returns index of filter with given matching key, value pair */
-  const getFilter = (value) => {
-    return;
+  const getCategory = (tag) => {
+    return findCategory(tag, categories);
   };
 
-  useEffect(() => {
-    const newFilter = toCategoryFilter(categories);
-    setFilter(newFilter);
-  }, []);
+  const activeTags = useMemo(
+    /**
+     * @returns {FilterCategory[]} factory
+     **/
+    () => {
+      const tags = [];
+      filter.forEach((category) => {
+        category.tags.forEach((tag) => {
+          if (tag.active) tags.push(tag);
+        });
+      });
+      return tags;
+    },
+    [filter]
+  );
 
-  return { filter, handleChange, getFilter, activeTags };
+  useEffect(() => {
+    const newFilter = toFilter(categories);
+    setFilter(newFilter);
+  }, [categories]);
+
+  return { filter, handleChange, getCategory, activeTags };
 };
 
 /**
@@ -134,8 +121,37 @@ export default FilterProvider;
  */
 
 /**
+ * @typedef Filter
+ * @property {string} name
+ * @property {FilterCategory[]} tags
+ */
+
+/**
  * @typedef FilterCategory
  * @property {number|string} id
+ * @property {number} category
  * @property {string} name
  * @property {boolean} active
+ */
+
+/**
+ * @callback changeFilterCallback
+ * @param {string|number} key
+ * @param {unkown} value
+ */
+
+/**
+ * @callback getCategoryCallback
+ * @param {string|number} key
+ * @param {unkown} value
+ * @returns {number}
+ * */
+
+/**
+ * @typedef FilterContext
+ * @type {object}
+ * @property {object} [filter] - key and values used to filter.
+ * @property {changeFilterCallback} [handleChange] - callback used to set keys and value on filter
+ * @property {getCategoryCallback} [getCategory] - callback used to get index of filter with given key and value
+ * @property {FilterCategory[]} [activeTags] - array of active tags
  */

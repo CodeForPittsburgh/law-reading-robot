@@ -5,4 +5,15 @@
 
 .summaries {
   flex-direction: column;
+  overflow: auto;
+  gap: var(--space-md);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-md);
+  gap: var(--space-sm);
+  justify-content: flex-end;
 }

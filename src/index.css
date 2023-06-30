@@ -19,11 +19,12 @@
   --space-sm: 0.5rem;
   --space-md: 1rem;
   --space-lg: 2rem;
+
+  --border-small: 1px solid #ddd;
 }
 
 body {
   margin: 0;
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

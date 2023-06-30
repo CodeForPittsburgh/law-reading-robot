@@ -2,28 +2,24 @@ import S from "./Results.module.css";
 import Entry from "./Entry";
 import { useFilter } from "../Filter/FilterProvider";
 import { useMemo } from "react";
+import { FilterButton } from "../Filter/FilterCategory";
 
 /**
  * @param {ResultsProps} props
  **/
 const Results = (props) => {
   const { articles } = props;
-  const { filter } = useFilter();
+  const { activeTags, getCategory } = useFilter();
 
   const filteredArticles = useMemo(() => {
     const filtered = articles.filter((article) => {
       const { tags } = article;
-      let activeTags = [];
-      filter.forEach((category) => {
-        const active = category.tags.filter((tag) => tag.active);
-        activeTags = [...activeTags, ...active];
-      });
       const tagNames = activeTags?.map((tag) => tag.name);
       return tagNames ? tags.some((tag) => tagNames.includes(tag)) : true;
     });
-    return filtered.length ? filtered : articles;
-  }, [articles, filter]);
-
+    // If there are active tags and no results, return empty array
+    return activeTags.length > 0 ? filtered : articles;
+  }, [articles, activeTags]);
   return (
     <section className={S.summaries}>
       <h2 className={S.title}>Bills</h2>
@@ -31,7 +27,11 @@ const Results = (props) => {
         return (
           <li key={article.billNumber}>
             <Entry article={article} />
-            <p>{article.tags}</p>
+            <div className={S.tags}>
+              {article.tags.map((tag, i) => (
+                <FilterButton key={`${tag}-${i}`} tag={tag} />
+              ))}
+            </div>
           </li>
         );
       })}

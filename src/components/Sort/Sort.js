@@ -3,6 +3,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import S from "./Sort.module.css";
 
 export const sortBy = (key, objects = []) => {
   return objects.sort((a, b) => {
@@ -32,7 +33,7 @@ export const Sort = ({ handleSort }) => {
   }, [sort, handleSort]);
 
   return (
-    <div>
+    <div className={S.sort}>
       <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
         <InputLabel>Sort by</InputLabel>
         <Select

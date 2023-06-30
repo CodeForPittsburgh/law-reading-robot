@@ -15,11 +15,8 @@ const Results = (props) => {
   const filteredArticles = useMemo(() => {
     let articles = props.articles;
     if (sorted) {
-      console.log("sorting", sorted);
       articles = sortBy(sorted, articles);
-      console.log(articles);
     }
-
     const filtered = articles.filter((article) => {
       const { tags } = article;
       const tagNames = activeTags?.map((tag) => tag.name);
@@ -28,6 +25,7 @@ const Results = (props) => {
     // If there are active tags and no results, return empty array
     return activeTags.length > 0 ? filtered : articles;
   }, [activeTags, sorted, props.articles]);
+
   return (
     <section className={S.summaries}>
       {filteredArticles.length && (

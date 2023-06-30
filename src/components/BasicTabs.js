@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, Route, Routes } from "react-router-dom";
+import { rssFiles } from "../Data";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -73,29 +74,6 @@ const SimpleBillTable = () => {
     </>
   );
 };
-
-const rssFiles = [
-  "HouseBillsAndResolutions",
-  "HouseCommitteeAssignments",
-  "HouseCommitteeMeetingSchedule",
-  "HouseCoSponsorshipMemoranda",
-  "HouseDailySessionReports",
-  "HouseLegislativeJournals",
-  "HouseMembers",
-  "HouseRollCallVotes",
-  "HouseVotedAmendments",
-  "SenateBillsAndResolutions",
-  "SenateCommitteeAssignments",
-  "SenateCommitteeMeetingSchedule",
-  "SenateCoSponsorshipMemoranda",
-  "SenateExecutiveNominationsCalendar",
-  "SenateFloorAmendments",
-  "SenateLegislativeJournals",
-  "SenateMembers",
-  "SenateRollCallVotes",
-  "SenateSessionCalendar",
-  "SenateSessionNotes",
-];
 
 function CsvTable({ filename }) {
   const [loading, setLoading] = useState(true);

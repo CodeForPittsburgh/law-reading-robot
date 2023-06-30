@@ -1,3 +1,26 @@
+export const rssFiles = [
+  "HouseBillsAndResolutions",
+  "HouseCommitteeAssignments",
+  "HouseCommitteeMeetingSchedule",
+  "HouseCoSponsorshipMemoranda",
+  "HouseDailySessionReports",
+  "HouseLegislativeJournals",
+  "HouseMembers",
+  "HouseRollCallVotes",
+  "HouseVotedAmendments",
+  "SenateBillsAndResolutions",
+  "SenateCommitteeAssignments",
+  "SenateCommitteeMeetingSchedule",
+  "SenateCoSponsorshipMemoranda",
+  "SenateExecutiveNominationsCalendar",
+  "SenateFloorAmendments",
+  "SenateLegislativeJournals",
+  "SenateMembers",
+  "SenateRollCallVotes",
+  "SenateSessionCalendar",
+  "SenateSessionNotes",
+];
+
 // A constant containing all tags that can be applied to a bill
 export const TAGS = [
   {

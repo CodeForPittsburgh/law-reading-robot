@@ -26,7 +26,17 @@ const toFilter = (categories) => {
   });
 };
 
-/** @type {Category[]} */
+/**
+ * Because category data is not available in the filter context, we need to mock it.
+ * However, mocked data below does not provide the category id; as a result, we need to
+ * generate it ourselves. This is implicitly done via the `toFilter` function using the
+ * an index of the category in the array as the id.
+ *
+ * This means that category data can be stored in the structure below i.e. with two properties:
+ * - name
+ * - tags (array of strings)
+ * @type {Category[]}
+ * */
 const CATEGORY_MOCK = [
   {
     name: "Category 1",
@@ -47,17 +57,40 @@ const CATEGORY_MOCK = [
 ];
 
 /**
- * Import the filter context to access and change filter values.
- * This must be used within the {@link FilterProvider} component,
+ * This should not be used directly. Instead, use the `useFilter` hook.
  * @returns {FilterContext}
  */
-export const FilterContext = createContext({
+const FilterContext = createContext({
   /** @type {Filter[]} */ filter: [],
   /** @type {changeFilterCallback} */ handleChange: () => {},
   /** @type {getCategoryCallback} */ getCategory: () => {},
   /** @type {FilterCategory[]} */ activeTags: [],
 });
 
+/**
+ * Must be used within a {@link FilterProvider}.
+ * @example
+ * ...
+ * <FilterProvider>
+ *     <FilterContainer />
+ * </FilterProvider>
+ * ...
+ * const FilterContainer = () => {
+ *   const { filter } = useFilter();
+ *
+ *   const filteredValues = filter.map((category) => {
+ *      return category.tags.filter((tag) => tag.active);
+ *    });
+ *
+ *    return (
+ *    <div>
+ *     {filteredValues.map(value => <p>{value}</p>)}
+ *   </div>
+ *  )
+ * }
+ * ...
+ * @returns {FilterContext}
+ * */
 export const useFilter = () => {
   const context = useContext(FilterContext);
   return context;

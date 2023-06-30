@@ -4,7 +4,6 @@ import { Button } from "react-bootstrap";
 import S from "./FilterCategory.module.css";
 
 /**
- *
  * @param {string} tag
  * @returns {Category} category in which tag is found
  */
@@ -13,7 +12,7 @@ export const findCategory = (tag, categories) => {
 };
 
 /**
- * Used in individual filter buttons. Do not use in FilterCategory.
+ * Used in individual filter buttons. Do not use in {@link FilterCategory}.
  * @param {FilterButtonProps} props
  * @returns {JSX.Element}
  */
@@ -41,7 +40,7 @@ export const FilterButton = ({ tag }) => {
       const idx = category?.tags.findIndex((t) => t.name === tag);
       return category?.tags[idx]?.active;
     },
-    [getCategory, filter]
+    [getCategory, filter, categoryIdx, tag]
   );
 
   /** @type {HandleSelect} */

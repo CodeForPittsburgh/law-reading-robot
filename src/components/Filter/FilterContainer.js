@@ -24,14 +24,14 @@ export const FilterContainer = () => {
               <Accordion
                 className={S.accordion}
                 style={{ boxShadow: "none", border: "none" }}
-                key={`${category.name}-${i}`}
+                key={`accordion-${category.name}-${i}`}
               >
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   {category.name}
                 </AccordionSummary>
                 <AccordionDetails>
                   <FilterCategory
-                    key={`${category.name}-i`}
+                    key={`${category.name}-${i + 1}`}
                     category={category}
                     index={i}
                   />

@@ -2,26 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import { rssFiles } from "../Data";
 
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import { Container, Row, Col } from "react-bootstrap";
+import { Tabs, Tab, Box, Typography } from "@mui/material/Tabs";
 
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-
-import Results from "./Results/Results";
-
-import { generateRandomBill } from "../Data";
-
-import { FilterProvider } from "./Filter/FilterProvider";
-import { FilterContainer } from "./Filter/FilterContainer";
-
-import S from "./BasicTabs.module.css";
-
-// An array composed of 5 random bills for testing purposes
-const bills = Array.from({ length: 5 }, () => generateRandomBill());
+import { Home } from "../pages";
 
 //TabPanel, a11yProps, and BasicTabs are boilerplate from MUI used to make tabs in the app
 function TabPanel(props) {
@@ -191,17 +175,7 @@ function BasicTabs() {
       <TabPanel value={value} index={0}>
         <Container>
           <Row>
-            <FilterProvider>
-              <Col sm={3} className={S.filter}>
-                <FilterContainer />
-
-                {/*Home*/}
-                {/*<Link to="/">Home</Link>*/}
-              </Col>
-              <Col className={S.results}>
-                <Results articles={bills} />
-              </Col>
-            </FilterProvider>
+            <Home />
           </Row>
         </Container>
       </TabPanel>

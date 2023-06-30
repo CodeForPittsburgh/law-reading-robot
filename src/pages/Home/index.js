@@ -1,7 +1,7 @@
 import React from "react";
 import { Col } from "react-bootstrap";
 import { FilterProvider, FilterContainer } from "../../components/Filter";
-import { randomBills } from "../Data";
+import { randomBills } from "../../Data";
 import S from "./Home.module.css";
 
 const DEFAULT_BILLS = randomBills(5);
@@ -27,5 +27,5 @@ export default Home;
 
 /**
  * @typedef HomeProps
- * @prop {import("../Data").BillData[]} [bills]
+ * @prop {import("../../Data").BillData[]} [bills]
  */

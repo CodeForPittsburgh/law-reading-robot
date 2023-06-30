@@ -1,9 +1,8 @@
 import S from "./Results.module.css";
 import Entry from "./Entry";
-import { useFilter } from "../Filter/FilterProvider";
 import { useMemo, useState } from "react";
-import { Sort, sortBy } from "../Sort/Sort";
-import { FilterButton } from "../Filter/FilterCategory";
+import { Sort, sortBy } from "../Sort";
+import { FilterButton, useFilter } from "../Filter";
 
 /**
  * @param {ResultsProps} props

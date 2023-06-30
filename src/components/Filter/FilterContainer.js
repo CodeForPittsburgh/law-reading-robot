@@ -1,14 +1,11 @@
-import { AccordionDetails, AccordionSummary } from "@mui/material";
-import Accordion from "@mui/material/Accordion";
 import React from "react";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import { AccordionDetails, AccordionSummary, Accordion } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Row, Col, Container } from "react-bootstrap";
 import { FilterCategory } from "./FilterCategory";
 import { useFilter } from "./FilterProvider";
-import S from "./FilterContainer.module.css";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Footer from "../Footer/Footer";
+import S from "./FilterContainer.module.css";
 
 /**
  * @param {FilterContainerProps} props

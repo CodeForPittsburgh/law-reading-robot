@@ -194,6 +194,14 @@ export function generateRandomBill() {
 }
 
 /**
+ * Generate a random array of bills
+ * @param {number} [count=5] - Number of bills to generate
+ * @returns {BillData[]} An array of random bills
+ * */
+export const randomBills = (count = 5) =>
+  Array.from({ length: count }, () => generateRandomBill());
+
+/**
  * @typedef {Object} BillData
  * @property {string} [billNumber] - Bill Number e.g. SB106
  * @property {Date} [pubDate] - Date the bill was published

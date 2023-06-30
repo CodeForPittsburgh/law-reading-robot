@@ -1,12 +1,9 @@
 import Header from "./components/Header/Header";
 import BasicTabs from "./components/BasicTabs";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 // import { supabase } from './supabaseClient';
 import { createTheme } from "@mui/material";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 
 import { ThemeProvider } from "@mui/material";
 

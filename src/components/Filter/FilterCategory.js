@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from "react";
-import { useFilter } from "./FilterProvider";
 import { Button } from "react-bootstrap";
+import { useFilter } from "./FilterProvider";
 import S from "./FilterCategory.module.css";
 
 /**

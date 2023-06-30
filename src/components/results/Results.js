@@ -1,17 +1,25 @@
 import S from "./Results.module.css";
 import Entry from "./Entry";
 import { useFilter } from "../Filter/FilterProvider";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { Sort, sortBy } from "../Sort/Sort";
 import { FilterButton } from "../Filter/FilterCategory";
 
 /**
  * @param {ResultsProps} props
  **/
 const Results = (props) => {
-  const { articles } = props;
+  const [sorted, setSorted] = useState("");
   const { activeTags } = useFilter();
 
   const filteredArticles = useMemo(() => {
+    let articles = props.articles;
+    if (sorted) {
+      console.log("sorting", sorted);
+      articles = sortBy(sorted, articles);
+      console.log(articles);
+    }
+
     const filtered = articles.filter((article) => {
       const { tags } = article;
       const tagNames = activeTags?.map((tag) => tag.name);
@@ -19,9 +27,12 @@ const Results = (props) => {
     });
     // If there are active tags and no results, return empty array
     return activeTags.length > 0 ? filtered : articles;
-  }, [articles, activeTags]);
+  }, [activeTags, sorted, props.articles]);
   return (
     <section className={S.summaries}>
+      {filteredArticles.length && (
+        <Sort handleSort={setSorted} objects={filteredArticles} />
+      )}
       <h2 className={S.title}>Bills</h2>
       {filteredArticles.map((article) => {
         return (

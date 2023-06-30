@@ -31,7 +31,6 @@ const Entry = (props) => {
         <div className={S.date}>
           <span data-bill-status={pubDate}>Date: {pubDate.toDateString()}</span>
         </div>
-        {/* <span data-bill-date={pubDate}>{pubDate}</span> */}
         <Link data-bill-link={link} target="_blank" to={link}>
           Full Text
         </Link>

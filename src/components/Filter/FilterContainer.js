@@ -8,6 +8,7 @@ import { FilterCategory } from "./FilterCategory";
 import { useFilter } from "./FilterProvider";
 import S from "./FilterContainer.module.css";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Footer from "../Footer/Footer";
 
 /**
  * @param {FilterContainerProps} props
@@ -40,9 +41,9 @@ export const FilterContainer = () => {
             ))}
         </Col>
       </Row>
-      <Row>
-        <Col>
-          <h2>Search</h2>
+      <Row className={S.footerContainer}>
+        <Col className={S.footer}>
+          <Footer />
         </Col>
       </Row>
     </Container>

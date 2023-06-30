@@ -27,7 +27,7 @@ li {
   width: calc(100% - var(--space-md) * 2);
   padding-inline: var(--space-md);
   /* Clamp no bigger then --space-md, no smaller then --space-sm */
-  padding-right: clamp(var(--space-sm), 3vw, var(--space-lg));
+  padding-right: clamp(var(--space-md), 3vw, var(--space-xl));
   display: flex;
   align-self: flex-end;
   flex-direction: row;

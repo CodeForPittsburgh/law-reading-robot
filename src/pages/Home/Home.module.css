@@ -1,11 +1,30 @@
-.filter {
+.footer {
+  border-top: var(--border-small);
+  margin-top: var(--space-md);
+  margin-right: calc(var(--bs-gutter-x) * 0.5);
+  margin-left: calc(var(--bs-gutter-x) * 0.5);
+}
+
+.footerContainer {
+  margin-top: var(--space-md);
+  padding-top: var(--space-md);
+}
+
+.search {
+  margin-top: var(--space-md);
+  display: flex;
+  justify-content: center;
+}
+
+.sidebar {
   border-bottom: var(--border-small);
 }
 
 @media (min-width: 768px) {
-  .filter {
+  .sidebar {
     border-bottom: none;
     border-right: var(--border-small);
+    padding-right: var(--space-md);
   }
 }
 

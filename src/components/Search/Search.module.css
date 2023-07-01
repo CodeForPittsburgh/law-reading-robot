@@ -1,0 +1,5 @@
+.search {
+  margin-block: var(--space-md);
+  width: min(100%, 300px);
+  margin-inline: auto;
+}

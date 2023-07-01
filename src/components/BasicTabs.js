@@ -173,7 +173,7 @@ function BasicTabs() {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Container>
+        <Container fluid={"md"}>
           <Row>
             <Home />
           </Row>

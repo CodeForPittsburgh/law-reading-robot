@@ -100,7 +100,14 @@ export const useFilter = () => {
  * @param {FilterProps} props
  */
 export const useFilterContext = (categories) => {
-  const [filter, setFilter] = useState([]);
+  /**
+   * @type {[Filter[], React.Dispatch<Filter[]>]} state
+   */
+  const [filter, setFilter] = useState(
+    /**
+     *  @type {Filter[]}
+     */ []
+  );
 
   const handleChange = (i, value) => {
     const values = [...filter];
@@ -117,6 +124,7 @@ export const useFilterContext = (categories) => {
      * @returns {FilterCategory[]} factory
      **/
     () => {
+      /** @type {FilterCategory[]} */
       const tags = [];
       filter.forEach((category) => {
         category.tags.forEach((tag) => {
@@ -183,7 +191,7 @@ export default FilterProvider;
 /**
  * @typedef FilterContext
  * @type {object}
- * @property {object} [filter] - key and values used to filter.
+ * @property {Filter[]} filter - key and values used to filter.
  * @property {changeFilterCallback} [handleChange] - callback used to set keys and value on filter
  * @property {getCategoryCallback} [getCategory] - callback used to get index of filter with given key and value
  * @property {FilterCategory[]} [activeTags] - array of active tags

@@ -1,4 +1,4 @@
-import Header from "./components/Header/Header";
+import Header from "./components/header/Header";
 import BasicTabs from "./components/BasicTabs";
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";

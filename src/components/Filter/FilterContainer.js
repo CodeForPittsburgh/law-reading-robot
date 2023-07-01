@@ -4,7 +4,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Row, Col, Container } from "react-bootstrap";
 import { FilterCategory } from "./FilterCategory";
 import { useFilter } from "./FilterProvider";
-import Footer from "../Footer/Footer";
+import Footer from "../footer/Footer";
 import S from "./FilterContainer.module.css";
 
 /**

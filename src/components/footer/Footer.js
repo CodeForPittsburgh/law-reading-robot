@@ -4,9 +4,8 @@ const Footer = () => {
   return (
     <footer className="bg-transparent mt-4">
       <div className="grid grid-cols-4">
-        <div>
-        </div>
-        <p>Terms of Service</p>
+        <div></div>
+        <p className="text-center">Terms of Service</p>
         <div></div>
         <div></div>
       </div>

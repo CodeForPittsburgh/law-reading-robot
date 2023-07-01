@@ -20,9 +20,7 @@ function Header() {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
-          >
-            {/*} <MenuIcon />*/}
-          </IconButton>
+          ></IconButton>
         </MenuPopupState>
       </Toolbar>
     </AppBar>

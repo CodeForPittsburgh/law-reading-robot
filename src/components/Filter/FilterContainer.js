@@ -1,3 +1,4 @@
+import { Types as _ } from ".";
 import React from "react";
 import { AccordionDetails, AccordionSummary, Accordion } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -52,11 +53,4 @@ export default FilterContainer;
 /**
  * @typedef FilterContainerProps
  * @prop {Category[]} categories
- */
-
-/**
- * @typedef Category
- * @type {object}
- * @property {string} name - name of category.
- * @property {string[]} tags - tags available on category
  */

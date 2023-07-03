@@ -1,3 +1,6 @@
+import { Types as _, BillModel } from "./models/Bill";
+let id = 0;
+
 export const rssFiles = [
   "HouseBillsAndResolutions",
   "HouseCommitteeAssignments",
@@ -21,15 +24,45 @@ export const rssFiles = [
   "SenateSessionNotes",
 ];
 
-// A constant containing all tags that can be applied to a bill
-export const TAGS = [
+const STATUS = ["Introduced", "Referred to Committee", "Pending", "Drafted"];
+
+const SPONSORS = [
   {
-    name: "Legislative reform",
+    name: "John Doe",
+    party: "D",
+    id: 1,
+  },
+  {
+    name: "Jane Doe",
+    party: "R",
+    id: 2,
+  },
+  {
+    name: "Avery Smith",
+    party: "D",
+    id: 3,
+  },
+  {
+    name: "Chris Aiken",
+    party: "R",
+    id: 4,
+  },
+  {
+    name: "Alexis Smith",
+    party: "D",
+    id: 5,
+  },
+];
+
+// A constant containing all tags that can be applied to a bill
+const TAGS = [
+  {
+    name: "Legislative Reform",
     category: 0,
     id: 1,
   },
   {
-    name: "Public policy",
+    name: "Public Policy",
     category: 0,
     id: 2,
   },
@@ -39,7 +72,7 @@ export const TAGS = [
     id: 3,
   },
   {
-    name: "Social justice",
+    name: "Social Justice",
     category: 1,
     id: 4,
   },
@@ -49,108 +82,36 @@ export const TAGS = [
     id: 5,
   },
   {
-    name: "Human rights",
+    name: "Human Rights",
     category: 1,
     id: 6,
   },
   {
-    name: "Environmental protection",
+    name: "Environmental Protection",
     category: 2,
     id: 7,
   },
   {
-    name: "Consumer protection",
+    name: "Consumer Protection",
     category: 2,
     id: 8,
   },
   {
-    name: "Labor rights",
+    name: "Labor Rights",
     category: 2,
     id: 9,
   },
   {
-    name: "Healthcare reform",
+    name: "Healthcare Reform",
     category: 3,
     id: 10,
   },
   {
-    name: "Education reform",
+    name: "Education Reform",
     category: 3,
     id: 11,
   },
 ];
-/**
- * A constant containing all categories that can be applied to a bill
- * @type {BillData}
- * @constructor
- * @param {string} billNumber - Bill Number e.g. SB106
- * @param {Date} pubDate - Date the bill was published
- * @param {string} title - Bill title (if the titles from the feed are useful
- * @param {string} summary - Summary text
- * @param {string} link - Link to full text
- * @param {string[]} tags - Tags for the piece of legislation
- * @param {object[]} versionHistory - Version history of bill (all of these for every previous version of this bill)
- * @param {string[]} sponsors - Sponsors of bill
- * @param {string} status - Status of the bill, e.g. whether it is passed.
- * @param {boolean} isReviewed - Has the summary text been reviewed by a human
- * @returns {BillData}
- * */
-export class BillData {
-  constructor(
-    billNumber,
-    pubDate,
-    title,
-    summary,
-    link,
-    tags,
-    versionHistory,
-    sponsors,
-    status,
-    isReviewed
-    // TODO: More properties to add?
-  ) {
-    /**
-     * @type {string} - Bill Number e.g. SB106
-     */
-    this.billNumber = billNumber;
-    /**
-     * @type {Date} - Date the bill was published
-     * */
-    this.pubDate = pubDate;
-    /**
-     * @type {string} - Bill title (if the titles from the feed are useful
-     **/
-    this.title = title;
-    /**
-     * @type {string} - Summary text
-     * */
-    this.summary = summary;
-    /**
-     * @type {string} - Link to full text
-     * */
-    this.link = link;
-    /**
-     * @type {string[]} - Tags for the piece of legislation
-     * */
-    this.tags = tags;
-    /**
-     * @type {object[]} - Version history of bill (all of these for every previous version of this bill)
-     * */
-    this.versionHistory = versionHistory;
-    /**
-     * @type {string[]} - Sponsors of bill
-     * */
-    this.sponsors = sponsors;
-    /**
-     * @type {string} - Status of the bill, e.g. whether it is passed.
-     * */
-    this.status = status;
-    /**
-     * @type {boolean} - Has the summary text been reviewed by a human
-     * */
-    this.isReviewed = isReviewed;
-  }
-}
 
 function randomDate(start, end) {
   return new Date(
@@ -160,7 +121,7 @@ function randomDate(start, end) {
 
 /**
  * Generate a random bill
- * @returns {BillData} A random bill
+ * @returns {BillModel} A random bill
  */
 export function generateRandomBill() {
   const billNumber = "SB" + Math.floor(Math.random() * 1000);
@@ -175,11 +136,18 @@ export function generateRandomBill() {
     TAGS[Math.floor(Math.random() * TAGS.length)].name,
   ];
   const versionHistory = [];
-  const sponsors = ["John Doe"];
-  const status = "Pending";
+  // Between 0 and 2 sponsors
+  let numSponsorsToGenerate = Math.floor(Math.random() * 3);
+  const sponsors = [];
+  while (numSponsorsToGenerate > 0) {
+    sponsors.push(SPONSORS[Math.floor(Math.random() * SPONSORS.length)].name);
+    numSponsorsToGenerate--;
+  }
+  const status = STATUS[Math.floor(Math.random() * STATUS.length)];
   const isReviewed = false;
 
-  return new BillData(
+  return new BillModel({
+    id: id++,
     billNumber,
     pubDate,
     title,
@@ -189,28 +157,14 @@ export function generateRandomBill() {
     versionHistory,
     sponsors,
     status,
-    isReviewed
-  );
+    isReviewed,
+  });
 }
 
 /**
  * Generate a random array of bills
  * @param {number} [count=5] - Number of bills to generate
- * @returns {BillData[]} An array of random bills
+ * @returns {BillModel[]} An array of random bills
  * */
-export const randomBills = (count = 5) =>
+export const randomBills = (count = 25) =>
   Array.from({ length: count }, () => generateRandomBill());
-
-/**
- * @typedef {Object} BillData
- * @property {string} [billNumber] - Bill Number e.g. SB106
- * @property {Date} [pubDate] - Date the bill was published
- * @property {string} [title] - Bill title (if the titles from the feed are useful
- * @property {string} [summary] - Summary text
- * @property {string} [link] - Link to full text
- * @property {string[]} [tags] - Tags for the piece of legislation
- * @property {object[]} [versionHistory] - Version history of bill (all of these for every previous version of this bill)
- * @property {string[]} [sponsors] - Sponsors of bill
- * @property {string} [status] - Status of the bill, e.g. whether it is passed.
- * @property {boolean} [isReviewed] - Has the summary text been reviewed by a human
- */

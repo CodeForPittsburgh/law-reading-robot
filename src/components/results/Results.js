@@ -9,21 +9,24 @@ import { FilterButton, useFilter } from "../Filter";
  **/
 const Results = (props) => {
   const [sorted, setSorted] = useState("");
-  const { activeTags } = useFilter();
+  const { activeTags, filteredData } = useFilter();
 
   const filteredArticles = useMemo(() => {
     let articles = props.articles;
+    let filtered = [];
     if (sorted) {
       articles = sortBy(sorted, articles);
     }
-    const filtered = articles.filter((article) => {
-      const { tags } = article;
-      const tagNames = activeTags?.map((tag) => tag.name);
-      return tagNames ? tags.some((tag) => tagNames.includes(tag)) : true;
-    });
-    // If there are active tags and no results, return empty array
+
+    if (filteredData) {
+      filtered = articles.filter(({ id }) => {
+        return filteredData.includes(id);
+      });
+    }
+
+    // If there are no active tags, return all articles. Otherwise, return filtered articles.
     return activeTags.length > 0 ? filtered : articles;
-  }, [activeTags, sorted, props.articles]);
+  }, [activeTags, sorted, props.articles, filteredData]);
 
   return (
     <section className={S.summaries}>

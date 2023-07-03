@@ -17,7 +17,7 @@
 
 /**
  * @description
- * Filterable properties of a bill
+ * Constants describing filterable properties of a bill
  * */
 const DATE = "pubDate";
 const SPONSORS = "sponsors";
@@ -26,7 +26,7 @@ const STATUS = "status";
 
 /**
  * @description
- * Filterable properties of a bill
+ * Filterable properties of a bill.
  * @type {BillFilter}
  * */
 export const BillFilter = {

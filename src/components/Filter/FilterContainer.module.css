@@ -2,14 +2,3 @@
   text-align: center;
   margin-block: var(--space-md);
 }
-
-.footerContainer {
-  margin-top: var(--space-md);
-}
-
-.footer {
-  border-top: var(--border-small);
-  margin-top: var(--space-md);
-  margin-right: calc(var(--bs-gutter-x) * 0.5);
-  margin-left: calc(var(--bs-gutter-x) * 0.5);
-}

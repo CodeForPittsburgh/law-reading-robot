@@ -4,6 +4,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuPopupState from "./PopupMenu";
+import DisclosureDialog from "./DisclosureDialog";
 //import MenuIcon from "@mui/icons-material/Menu";
 
 function Header() {
@@ -13,6 +14,7 @@ function Header() {
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Logo
         </Typography>
+        <DisclosureDialog />
         <MenuPopupState>
           <IconButton
             size="large"

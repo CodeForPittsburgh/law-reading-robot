@@ -1,5 +1,6 @@
 import Header from "./components/Header/Header";
 import BasicTabs from "./components/BasicTabs";
+import DisclosureDialog from "./components/Header/DisclosureDialog"
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 // import { supabase } from './supabaseClient';

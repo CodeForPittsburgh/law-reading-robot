@@ -45,7 +45,7 @@ const SimpleBillTable = () => {
           </li>
         ))}
       </ul>
-      {/*  This breaks if loaded to slowly. */}
+      {/*  This breaks if loaded too slowly. */}
       <Routes>
         {[rssFiles?.[0]].map((name) => (
           <Route

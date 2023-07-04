@@ -9,7 +9,7 @@ import { FilterButton, useFilter } from "../Filter";
  **/
 const Results = (props) => {
   const [sorted, setSorted] = useState("");
-  const { activeTags, filteredData } = useFilter();
+  const { activeBuckets, filteredData } = useFilter();
 
   const filteredArticles = useMemo(() => {
     let articles = props.articles;
@@ -24,23 +24,32 @@ const Results = (props) => {
       });
     }
 
-    // If there are no active tags, return all articles. Otherwise, return filtered articles.
-    return activeTags.length > 0 ? filtered : articles;
-  }, [activeTags, sorted, props.articles, filteredData]);
+    // If there are no active buckets, return all articles. Otherwise, return filtered articles.
+    return activeBuckets.length > 0 ? filtered : articles;
+  }, [activeBuckets, sorted, props.articles, filteredData]);
 
   return (
     <section className={S.summaries}>
-      {filteredArticles.length && (
-        <Sort handleSort={setSorted} objects={filteredArticles} />
+      {filteredArticles.length > 0 ? (
+        <>
+          <Sort handleSort={setSorted} objects={filteredArticles} />
+          <div className={S.container}>
+            <h2 className={S.title}>Bills</h2>
+            <p className={S.total}>({filteredArticles.length} Results)</p>
+          </div>
+        </>
+      ) : (
+        <div className={S.container}>
+          <h2 className={S.title}>No bills match your search.</h2>
+        </div>
       )}
-      <h2 className={S.title}>Bills</h2>
-      {filteredArticles.map((article) => {
+      {filteredArticles.map((article, i) => {
         return (
-          <li key={article.billNumber}>
+          <li key={`${article.billNumber}-${i}`}>
             <Entry article={article} />
             <div className={S.tags}>
-              {article.tags.map((tag, i) => (
-                <FilterButton key={`${tag}-${i}`} tag={tag} />
+              {article.tags.map((tag, j) => (
+                <FilterButton key={`${tag}-${j}`} tag={tag} />
               ))}
             </div>
           </li>

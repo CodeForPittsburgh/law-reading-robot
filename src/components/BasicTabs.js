@@ -6,6 +6,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import { Tabs, Tab, Box, Typography } from "@mui/material";
 
 import { Home } from "../pages";
+import S from "./BasicTabs.module.css";
 
 //TabPanel, a11yProps, and BasicTabs are boilerplate from MUI used to make tabs in the app
 function TabPanel(props) {
@@ -180,7 +181,7 @@ function BasicTabs() {
         </Container>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Container>
+        <Container className={S.container}>
           <Row>
             <Col>
               <SimpleBillTable />

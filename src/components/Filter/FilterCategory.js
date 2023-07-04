@@ -39,10 +39,8 @@ export const FilterButton = ({ tag }) => {
   /** @type {handleSelect} */
   const handleSelect = useCallback(
     (bucket) => {
-      console.log(bucket);
       const { id } = bucket;
       // Get the values for the current category
-      console.log(id);
       const values = filter?.[categoryIdx]?.buckets;
       const idx = values.findIndex((bucket) => bucket.name === id);
       values[idx] = {

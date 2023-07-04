@@ -3,7 +3,8 @@ import { toTitleCase, isString, isDate } from "../helpers";
 
 /**
  * @description
- * FilterService is a service that provides methods to filter data
+ * FilterService is a service that provides methods that structure data
+ * in a way that is ammenable to filtering.
  * @returns {FilterService}
  */
 export class FilterService {
@@ -12,19 +13,20 @@ export class FilterService {
    * @static
    * @memberof FilterService
    * @description
-   * Factory to bucket uncategorized data using properties on the data
+   * Factory to bucket uncategorized data using properties on the data.
    * @example
    * const filter = FilterService.toFilter(filter, categories);
    */
   static toFilter(data) {
+    /**
+     * {@link BillModel.getCategories}
+     */
     const categories = BillModel.getCategories();
     const [keys, values] = [Object.keys(categories), Object.values(categories)];
-    // Create a filter object with the category keys as human readable names.
+
     const filter = keys.map((category) => {
       return {
-        // Capitalize the first letter of the category name.
         name: toTitleCase(category),
-        // Create an empty array to store the filter buckets.
         buckets: [],
       };
     });
@@ -66,7 +68,7 @@ export class FilterService {
    */
   static toBucket(data) {
     /**
-     * If data type is not all the same, throw an error.
+     * If data type is not all the same, throw an error, catch it and return all data.
      */
     const types = new Set(data.map(({ value }) => typeof value));
     try {
@@ -78,7 +80,7 @@ export class FilterService {
     } catch (error) {
       console.error(error);
     } finally {
-      if (types.size > 1) return new Map();
+      if (types.size > 1) return new Map([["All", data.map(({ id }) => id)]]);
     }
     /**
      * Maps are useful for storing occurrences of a value given a unique key.
@@ -87,7 +89,7 @@ export class FilterService {
     const first = data?.[0]?.value;
     switch (true) {
       /**
-       * If type is a string, then bucket by string.
+       * If type is a string, then bucket by string matching.
        * */
       case isString(first):
         data.forEach(({ id, value }) => {
@@ -96,7 +98,7 @@ export class FilterService {
         });
         return buckets;
       /**
-       * If type is a Date, then bucket by year.
+       * If type is a Date, then bucket by year for now.
        * */
       case isDate(first):
         data.forEach(({ id, value }) => {

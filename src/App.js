@@ -2,6 +2,7 @@ import Header from "./components/Header/Header";
 import BasicTabs from "./components/BasicTabs";
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
+import { DataProvider } from "./hooks/useData";
 // import { supabase } from './supabaseClient';
 import { createTheme } from "@mui/material";
 
@@ -29,7 +30,9 @@ const MainAppContainer = () => {
     <Router>
       <ThemeProvider theme={theme}>
         <Header />
-        <BasicTabs />
+        <DataProvider>
+          <BasicTabs />
+        </DataProvider>
       </ThemeProvider>
     </Router>
   );

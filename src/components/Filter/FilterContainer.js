@@ -1,3 +1,4 @@
+import { Types as _ } from ".";
 import React from "react";
 import { AccordionDetails, AccordionSummary, Accordion } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -6,7 +7,9 @@ import { useFilter } from "./FilterProvider";
 import S from "./FilterContainer.module.css";
 
 /**
- * @param {FilterContainerProps} props
+ * @description Filter container component for the sidebar. This component
+ * will render a list of `FilterCategory` components in an accordion.
+ * @returns {JSX.Element}
  */
 export const FilterContainer = () => {
   const { filter } = useFilter();
@@ -37,15 +40,3 @@ export const FilterContainer = () => {
 };
 
 export default FilterContainer;
-
-/**
- * @typedef FilterContainerProps
- * @prop {Category[]} categories
- */
-
-/**
- * @typedef Category
- * @type {object}
- * @property {string} name - name of category.
- * @property {string[]} tags - tags available on category
- */

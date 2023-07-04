@@ -6,7 +6,7 @@
 }
 
 :root {
-  --navbar-height: 50px;
+  --navbar-height: 64px;
   --color-primary: white;
   --color-secondary: lightblue;
   --color-secondary-border: rgb(118, 148, 158);
@@ -22,10 +22,22 @@
   --space-xl: 2.5rem;
 
   --border-small: 1px solid #ddd;
+
+  --tab-title-height: 78px;
+  --max-container-height: calc(
+    100vh - calc(var(--navbar-height) + var(--tab-title-height))
+  );
 }
 
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+@media (min-width: 768px) {
+  #root {
+    max-height: 100vh;
+    overflow: hidden;
+  }
 }

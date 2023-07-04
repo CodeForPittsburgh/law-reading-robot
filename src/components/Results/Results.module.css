@@ -1,6 +1,21 @@
-.title {
-  text-align: center;
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: var(--space-sm);
   margin-block: var(--space-md);
+  justify-content: center;
+  align-items: center;
+}
+
+.title,
+.total {
+  text-align: center;
+  display: inline-block;
+}
+
+.total {
+  margin-bottom: 0;
+  font-weight: 300;
 }
 
 .summaries {

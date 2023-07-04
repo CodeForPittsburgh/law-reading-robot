@@ -1,19 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Types as _ } from "../../models/Bill/types";
 import { Row, Col } from "react-bootstrap";
 import { FilterProvider, FilterContainer } from "../../components/Filter";
 import { Search, SearchProvider } from "../../components/Search";
 import Results from "../../components/Results/Results";
+import { useData } from "../../hooks/useData";
 import Footer from "../../components/Footer/Footer";
 import { randomBills } from "../../Data";
 import S from "./Home.module.css";
 
-const DEFAULT_BILLS = randomBills(5);
+const DEFAULT_BILLS = randomBills(25);
 
 /**
  * @param {HomeProps} props
  * @returns {JSX.Element}
  */
 export const Home = ({ bills = DEFAULT_BILLS }) => {
+  const { setData } = useData();
+
   /**
    * Search logic goes here.
    * Ideally, this callback might do something like:
@@ -24,6 +28,9 @@ export const Home = ({ bills = DEFAULT_BILLS }) => {
     console.log(e);
   };
 
+  useEffect(() => {
+    setData(bills);
+  }, [bills, setData]);
   return (
     <SearchProvider handleSearch={handleSearch}>
       <FilterProvider>
@@ -56,5 +63,5 @@ export default Home;
 
 /**
  * @typedef HomeProps
- * @prop {import("../../Data").BillData[]} [bills]
+ * @prop {BillData[]} [bills]
  */

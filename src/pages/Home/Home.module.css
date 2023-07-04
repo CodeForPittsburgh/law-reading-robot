@@ -25,15 +25,20 @@
     border-bottom: none;
     border-right: var(--border-small);
     padding-right: var(--space-md);
+    max-height: var(--max-container-height);
+    overflow-y: scroll;
   }
 }
 
 .results {
   padding-left: clamp(var(--space-sm), 3vw, var(--space-lg));
+  display: grid;
 }
 
 @media (min-width: 768px) {
   .results {
     padding-left: none;
+    max-height: var(--max-container-height);
+    overflow-y: scroll;
   }
 }

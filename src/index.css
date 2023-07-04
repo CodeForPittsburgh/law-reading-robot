@@ -35,7 +35,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-#root {
-  max-height: 100vh;
-  overflow: hidden;
+@media (min-width: 768px) {
+  #root {
+    max-height: 100vh;
+    overflow: hidden;
+  }
 }

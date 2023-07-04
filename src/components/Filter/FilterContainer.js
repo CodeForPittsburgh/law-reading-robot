@@ -7,7 +7,9 @@ import { useFilter } from "./FilterProvider";
 import S from "./FilterContainer.module.css";
 
 /**
- * @param {FilterContainerProps} props
+ * @description Filter container component for the sidebar. This component
+ * will render a list of `FilterCategory` components in an accordion.
+ * @returns {JSX.Element}
  */
 export const FilterContainer = () => {
   const { filter } = useFilter();
@@ -38,8 +40,3 @@ export const FilterContainer = () => {
 };
 
 export default FilterContainer;
-
-/**
- * @typedef FilterContainerProps
- * @prop {Category[]} categories
- */

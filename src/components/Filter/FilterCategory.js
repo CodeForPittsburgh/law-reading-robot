@@ -30,25 +30,28 @@ export const FilterButton = ({ tag }) => {
      */
     () => {
       const category = filter?.[categoryIdx];
-      const idx = category?.tags.findIndex((t) => t.name === tag);
-      return category?.tags[idx]?.active;
+      const idx = category?.buckets.findIndex((t) => t.name === tag);
+      return category?.buckets[idx]?.active;
     },
     [filter, categoryIdx, tag]
   );
 
   /** @type {handleSelect} */
   const handleSelect = useCallback(
-    ({ id }) => {
-      // Get the values for the currentcategory
-      const values = filter?.[categoryIdx]?.tags;
-      const idx = values.findIndex((tag) => tag.name === id);
+    (bucket) => {
+      console.log(bucket);
+      const { id } = bucket;
+      // Get the values for the current category
+      console.log(id);
+      const values = filter?.[categoryIdx]?.buckets;
+      const idx = values.findIndex((bucket) => bucket.name === id);
       values[idx] = {
         ...values[idx],
         active: !values[idx]?.active,
       };
       const newValue = {
         name: category.name,
-        tags: values,
+        buckets: values,
       };
       handleChange(categoryIdx, newValue);
     },
@@ -67,6 +70,7 @@ export const FilterButton = ({ tag }) => {
 };
 
 /**
+ * @description Filter category places the filter buttons in a row.
  * @param {FilterCategoryProps} props
  */
 export const FilterCategory = ({ category }) => {
@@ -85,8 +89,8 @@ export const FilterCategory = ({ category }) => {
   /** @type {handleSelect} */
   const handleSelect = useCallback(
     ({ id }) => {
-      // Get the values for the currentcategory
-      const values = filter?.[categoryIdx]?.tags;
+      // Get the values for the current category
+      const values = filter?.[categoryIdx]?.buckets;
       const idx = values.findIndex((tag) => tag.id === id);
       values[idx] = {
         ...values[idx],
@@ -94,7 +98,7 @@ export const FilterCategory = ({ category }) => {
       };
       const newValue = {
         name: category.name,
-        tags: values,
+        buckets: values,
       };
       handleChange(categoryIdx, newValue);
     },
@@ -104,8 +108,8 @@ export const FilterCategory = ({ category }) => {
   return (
     <div className={S.details}>
       {filter &&
-        filter?.[categoryIdx]?.tags.map((tag, i) => {
-          const isChecked = filter?.[categoryIdx]?.tags?.[i].active;
+        filter?.[categoryIdx]?.buckets.map((tag, i) => {
+          const isChecked = filter?.[categoryIdx]?.buckets?.[i].active;
           return (
             <Button
               key={i}
@@ -130,7 +134,7 @@ export default FilterCategory;
 
 /**
  * @callback handleSelect
- * @param {FilterCategory} id
+ * @param {FilterBucket} bucket
  * @returns {void}
  */
 

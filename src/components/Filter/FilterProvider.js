@@ -4,36 +4,6 @@ import { useData } from "../../hooks/useData";
 import { FilterService } from "../../services/FilterService";
 
 /**
- * Because category data is not available in the filter context, we need to mock it.
- * However, mocked data below does not provide the category id; as a result, we need to
- * generate it ourselves. This is implicitly done via the `toFilter` function using the
- * an index of the category in the array as the id.
- *
- * This means that category data can be stored in the structure below i.e. with two properties:
- * - name
- * - tags (array of strings)
- * @type {Category[]}
- * */
-const CATEGORY_MOCK = [
-  {
-    name: "Cateogry 1",
-    tags: ["Legislative Reform", "Public Policy", "Governance"],
-  },
-  {
-    name: "Category 2",
-    tags: ["Social Justice", "Equality", "Human rights"],
-  },
-  {
-    name: "Category 3",
-    tags: ["Environmental Protection", "Consumer Protection", "Labor Rights"],
-  },
-  {
-    name: "Category 4",
-    tags: ["Healthcare Reform", "Education Reform"],
-  },
-];
-
-/**
  * This should not be used directly. Instead, use the `useFilter` hook.
  * @returns {FilterContext}
  */
@@ -41,7 +11,7 @@ const FilterContext = createContext({
   /** @type {Filter[]} */ filter: [],
   /** @type {changeFilterCallback} */ handleChange: () => {},
   /** @type {getCategoryCallback} */ getCategory: () => {},
-  /** @type {FilterCategory[]} */ activeTags: [],
+  /** @type {FilterBucket[]} */ activeBuckets: [],
 });
 
 /**
@@ -86,37 +56,41 @@ export const useFilterContext = (categories, data) => {
      */ []
   );
 
-  const handleChange = (i, value) => {
+  /**
+   * @param {string|number} key
+   * @param {Filter[]} value
+   * */
+  const handleChange = (key, value) => {
     const values = [...filter];
-    values[i] = value;
+    values[key] = value;
     setFilter(values);
   };
 
   /**
-   * @param {string} tag
-   * @returns {FilterCategory}
+   * @param {string} bucketName
+   * @returns {Filter}
    * */
-  const getCategory = (tag) => {
+  const getCategory = (bucketName) => {
     const cat = filter.find((category) => {
-      return category.tags.find((t) => t.name === tag);
+      return category.buckets.find((bucket) => bucket.name === bucketName);
     });
 
     return cat ?? -1;
   };
 
-  const activeTags = useMemo(
+  const activeBuckets = useMemo(
     /**
-     * @returns {FilterCategory} factory
+     * @returns {FilterBucket[]} factory
      **/
     () => {
-      /** @type {FilterCategory[]} */
-      const tags = [];
+      /** @type {FilterBucket[]} */
+      const buckets = [];
       filter.forEach((category) => {
-        category.tags.forEach((tag) => {
-          if (tag.active) tags.push(tag);
+        category.buckets.forEach((bucket) => {
+          if (bucket.active) buckets.push(bucket);
         });
       });
-      return tags;
+      return buckets;
     },
     [filter]
   );
@@ -129,7 +103,7 @@ export const useFilterContext = (categories, data) => {
       /**
        * Filter should be conjunction of all active tags within a category.
        */
-      const grouped = activeTags.reduce((acc, { category, values }) => {
+      const grouped = activeBuckets.reduce((acc, { category, values }) => {
         acc.set(category, [...(acc.get(category) || []), values]);
         return acc;
       }, new Map());
@@ -146,7 +120,7 @@ export const useFilterContext = (categories, data) => {
       );
       return dataIds;
     },
-    [activeTags]
+    [activeBuckets]
   );
 
   useEffect(() => {
@@ -156,13 +130,13 @@ export const useFilterContext = (categories, data) => {
     }
   }, [categories, data]);
 
-  return { filter, handleChange, getCategory, activeTags, filteredData };
+  return { filter, handleChange, getCategory, activeBuckets, filteredData };
 };
 
 /**
- * @param {FilterProps} props
+ * @param {FilterProviderProps} props
  */
-export const FilterProvider = ({ categories = CATEGORY_MOCK, children }) => {
+export const FilterProvider = ({ categories, children }) => {
   const { data } = useData();
 
   const context = useFilterContext(categories, data);
@@ -174,6 +148,7 @@ export const FilterProvider = ({ categories = CATEGORY_MOCK, children }) => {
 export default FilterProvider;
 
 /**
- * @typedef FilterProps
+ * @typedef FilterProviderProps
  * @prop {import("./FilterContainer").Category[]} categories
+ * @prop {React.ReactNode} children
  */

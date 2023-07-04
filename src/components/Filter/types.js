@@ -1,11 +1,11 @@
 /**
  * @typedef Filter
  * @property {string} name
- * @property {FilterCategory[]} categories
+ * @property {FilterBucket[]} buckets
  */
 
 /**
- * @typedef FilterCategory
+ * @typedef FilterBucket
  * @property {number|string} id
  * @property {number} category
  * @property {string} name
@@ -17,9 +17,9 @@
  * @typedef FilterContext
  * @type {object}
  * @property {Filter[]} filter - key and values used to filter.
- * @property {changeFilterCallback} [handleChange] - callback used to set keys and value on filter
+ * @property {changeFilterCallback} handleChange - callback used to set keys and value on filter.
  * @property {getCategoryCallback} [getCategory] - callback used to get index of filter with given key and value
- * @property {FilterCategory[]} [activeTags] - array of active buckets
+ * @property {FilterBucket[]} [activeBuckets] - array of active buckets
  */
 
 /**
@@ -31,8 +31,8 @@
 
 /**
  * @callback changeFilterCallback
- * @param {string|number} key
- * @param {unkown} value
+ * @param {string|number} key - Which category to change
+ * @param {Filter[]} value - Values to change
  */
 
 /**

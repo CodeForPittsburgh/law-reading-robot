@@ -1,5 +1,4 @@
-import { Types as _filter } from "../components/Filter";
-import { BillModel, Types as _billdata } from "../models/Bill";
+import { BillModel, Types as _ } from "../models/Bill";
 import { toTitleCase, isString, isDate } from "../helpers";
 
 /**
@@ -10,14 +9,12 @@ import { toTitleCase, isString, isDate } from "../helpers";
 export class FilterService {
   /**
    * @param {BillModel[]} data
-   * @returns {FilterService}
    * @static
    * @memberof FilterService
    * @description
-   * Factory method to create a new instance of FilterService with the given uncategorized data.
-   * Using properties on the data
+   * Factory to bucket uncategorized data using properties on the data
    * @example
-   * const filterService = FilterService.create(filter, categories);
+   * const filter = FilterService.toFilter(filter, categories);
    */
   static toFilter(data) {
     const categories = BillModel.getCategories();
@@ -27,19 +24,22 @@ export class FilterService {
       return {
         // Capitalize the first letter of the category name.
         name: toTitleCase(category),
-        tags: [],
+        // Create an empty array to store the filter buckets.
+        buckets: [],
       };
     });
-    // Using categories to access data properties, populate the filter tags.
+
+    // Using categories to access data properties, populate the filter buckets.
     data.reduce((acc, item) => {
       values.forEach((category, i) => {
         const value = item[category];
         if (value) {
-          acc[i].tags.push({ id: item?.id, value });
+          acc[i].buckets.push({ id: item?.id, value });
         }
       });
       return acc;
     }, filter);
+
     // Bucket the tags
     const bucketed = filter.map((category) => {
       return {
@@ -50,7 +50,7 @@ export class FilterService {
         /**
          * @type {Map<string, number[]>}
          * */
-        tags: this.toBucket(category.tags),
+        buckets: this.toBucket(category.buckets),
       };
     });
 
@@ -126,10 +126,15 @@ export class FilterService {
     }
   }
 
+  /**
+   *
+   * @param {Category[]} categories
+   * @returns {FilterableCategory[]}
+   */
   static toFilterableCategories(categories) {
     let offset = 0;
     const _categories = categories.map((category, i) => {
-      const tags = Array.from(category.tags.entries()).map(
+      const buckets = Array.from(category.buckets.entries()).map(
         ([key, value], j) => {
           return {
             id: i + j + offset,
@@ -140,13 +145,40 @@ export class FilterService {
           };
         }
       );
-      offset += tags.length - 1;
+      offset += buckets.length - 1;
       return {
         name: category.name,
-        tags,
+        buckets,
       };
     });
 
     return _categories;
   }
 }
+
+/**
+ * @typedef {object} Category
+ * @property {string} name
+ * @property {Bucket[]} buckets
+ */
+
+/**
+ * @typedef {object} Bucket
+ * @property {string} name
+ * @property {number[]} values - Array of ids that correspond to the bucket.
+ */
+
+/**
+ * @typedef {object} FilterableCategory
+ * @property {string} name
+ * @property {FilterableBucket[]} buckets
+ */
+
+/**
+ * @typedef {object} FilterableBucket
+ * @property {string} name
+ * @property {number[]} values - Array of ids that correspond to the bucket.
+ * @property {boolean} active - Whether the bucket is active or not.
+ * @property {number} category - The category index that the bucket belongs to.
+ * @property {number} id - The unique id of the bucket.
+ */

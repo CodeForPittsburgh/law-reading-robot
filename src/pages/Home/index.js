@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import React from "react";
+import { Types as _ } from "../../models/Bill/types";
 import { Row, Col } from "react-bootstrap";
 import { FilterProvider, FilterContainer } from "../../components/Filter";
 import { Search, SearchProvider } from "../../components/Search";
@@ -16,6 +16,8 @@ const DEFAULT_BILLS = randomBills(25);
  * @returns {JSX.Element}
  */
 export const Home = ({ bills = DEFAULT_BILLS }) => {
+  const { setData } = useData();
+
   /**
    * Search logic goes here.
    * Ideally, this callback might do something like:
@@ -25,8 +27,6 @@ export const Home = ({ bills = DEFAULT_BILLS }) => {
   const handleSearch = (e) => {
     console.log(e);
   };
-
-  const { setData } = useData();
 
   useEffect(() => {
     setData(bills);
@@ -63,5 +63,5 @@ export default Home;
 
 /**
  * @typedef HomeProps
- * @prop {import("../../Data").BillData[]} [bills]
+ * @prop {BillData[]} [bills]
  */

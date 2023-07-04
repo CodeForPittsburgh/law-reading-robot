@@ -110,7 +110,6 @@ export const useFilterContext = (categories, data) => {
       /**
        * Intersection of all data ids between categories.
        */
-      console.log(Array.from(grouped.values()));
       const dataIds = Array.from(grouped.values()).reduce((acc, values, i) => {
         const ids = values.flat();
         if (i === 0) return ids;

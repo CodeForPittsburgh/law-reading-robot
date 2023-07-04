@@ -110,14 +110,13 @@ export const useFilterContext = (categories, data) => {
       /**
        * Intersection of all data ids between categories.
        */
-      const dataIds = Array.from(grouped.values()).reduce(
-        (acc, [values], i) => {
-          if (i === 0) return values;
-          const intersection = acc.filter((id) => values.includes(id));
-          return intersection.length === 0 ? [] : intersection;
-        },
-        []
-      );
+      console.log(Array.from(grouped.values()));
+      const dataIds = Array.from(grouped.values()).reduce((acc, values, i) => {
+        const ids = values.flat();
+        if (i === 0) return ids;
+        const intersection = acc.filter((id) => ids.includes(id));
+        return intersection.length === 0 ? [] : intersection;
+      }, []);
       return dataIds;
     },
     [activeBuckets]

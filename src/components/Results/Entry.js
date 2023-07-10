@@ -23,7 +23,7 @@ const Entry = (props) => {
 
         <div className={S.sponsors}>
           Sponsor{`${sponsors.length > 1 ? "s" : ""}`}:{" "}
-          {sponsors.map((sponsor, i) => (
+          {sponsors.slice(0, 1).map((sponsor, i) => (
             <div
               key={`${sponsor}-${i}-${article.billNumber}`}
               data-bill-sponsor={sponsor}

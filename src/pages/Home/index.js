@@ -6,7 +6,7 @@ import { Search, SearchProvider } from "../../components/Search";
 import Results from "../../components/Results/Results";
 import { useData } from "../../hooks/useData";
 import Footer from "../../components/Footer/Footer";
-import { randomBills } from "../../Data";
+import { randomBills, toBillModel } from "../../Data";
 import S from "./Home.module.css";
 import { supabase } from "../../supabaseClient";
 
@@ -17,7 +17,7 @@ const DEFAULT_BILLS = randomBills(25);
  * @returns {JSX.Element}
  */
 export const Home = ({ bills = DEFAULT_BILLS }) => {
-  const { setData } = useData();
+  const { data, setData } = useData();
 
   /**
    * Search logic goes here.
@@ -30,19 +30,21 @@ export const Home = ({ bills = DEFAULT_BILLS }) => {
   };
 
   const fetchData = async () => {
+    // TODO: Move this into a DataService
     const { data, error } = await supabase
       .from("bill_data")
       .select("*")
+      .range(0, 10)
       .order("id", { ascending: true });
     if (error) console.log("error", error);
     else {
-      console.log("data", data);
+      const b = data.map((bill) => toBillModel(bill));
+      setData(b);
     }
   };
 
   useEffect(() => {
     fetchData();
-    setData(bills);
   }, [bills, setData]);
   return (
     <SearchProvider handleSearch={handleSearch}>
@@ -65,7 +67,13 @@ export const Home = ({ bills = DEFAULT_BILLS }) => {
           </Row>
         </Col>
         <Col className={S.results}>
-          <Results articles={bills} />
+          {data && data.length > 0 ? (
+            <Results articles={data} />
+          ) : (
+            <div className={S.container}>
+              <h2 className={S.title}>No bills match your search.</h2>
+            </div>
+          )}
         </Col>
       </FilterProvider>
     </SearchProvider>

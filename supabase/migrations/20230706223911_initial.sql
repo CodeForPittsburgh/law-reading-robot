@@ -269,12 +269,13 @@ CREATE OR REPLACE TRIGGER sponsors_updated_at BEFORE UPDATE ON public.sponsors F
 CREATE OR REPLACE VIEW public.bill_data AS 
 SELECT DISTINCT 
     b.id, 
+    b.external_id AS "bill-number",
     b.title,
     r.external_link AS "link",
     b.description,
     b.status,
-    CONCAT(s.first_name, ' ', s.last_name, ' (', s.party, ')') AS "primary-sponsor", 
-    array_agg(DISTINCT CONCAT(cs.first_name, ' ', cs.last_name, ' (', s.party, ')')) AS "co-sponsors",
+    INITCAP(CONCAT(s.first_name, ' ', s.last_name, ' (', s.party, ')')) AS "primary-sponsor", 
+    array_agg(DISTINCT INITCAP(CONCAT(cs.first_name, ' ', cs.last_name, ' (', s.party, ')'))) AS "co-sponsors",
     array_agg(DISTINCT t.text) AS tags
 FROM bills b
 JOIN bills_tags bt ON b.id = bt.bill

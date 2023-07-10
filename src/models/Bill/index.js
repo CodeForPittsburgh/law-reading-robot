@@ -1,5 +1,4 @@
-import { BillFilter } from "./types";
-export * as Types from "./types";
+import { BillFilter, BillData } from "./types";
 
 /**
  * A model containing all properties that can be applied to a bill.

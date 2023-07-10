@@ -161,6 +161,22 @@ export function generateRandomBill() {
   });
 }
 
+export const toBillModel = (bill) => {
+  return new BillModel({
+    id: bill.id,
+    billNumber: bill["bill-number"],
+    pubDate: new Date(bill.status.date),
+    title: bill.title,
+    summary: bill.description,
+    link: bill.link,
+    tags: bill.tags,
+    versionHistory: [],
+    sponsors: [bill["primary-sponsor"], ...bill["co-sponsors"]],
+    status: bill.status["last_action"],
+    isReviewed: false,
+  });
+};
+
 /**
  * Generate a random array of bills
  * @param {number} [count=5] - Number of bills to generate

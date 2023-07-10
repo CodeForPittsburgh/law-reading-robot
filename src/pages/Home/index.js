@@ -8,6 +8,7 @@ import { useData } from "../../hooks/useData";
 import Footer from "../../components/Footer/Footer";
 import { randomBills } from "../../Data";
 import S from "./Home.module.css";
+import { supabase } from "../../supabaseClient";
 
 const DEFAULT_BILLS = randomBills(25);
 
@@ -28,7 +29,19 @@ export const Home = ({ bills = DEFAULT_BILLS }) => {
     console.log(e);
   };
 
+  const fetchData = async () => {
+    const { data, error } = await supabase
+      .from("bill_data")
+      .select("*")
+      .order("id", { ascending: true });
+    if (error) console.log("error", error);
+    else {
+      console.log("data", data);
+    }
+  };
+
   useEffect(() => {
+    fetchData();
     setData(bills);
   }, [bills, setData]);
   return (

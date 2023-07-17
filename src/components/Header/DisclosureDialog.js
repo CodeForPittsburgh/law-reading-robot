@@ -15,7 +15,9 @@ export default function DisclosureDialog() {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = (event, reason) => {
+    if (reason && reason == "backdropClick") 
+        return;
     setOpen(false);
   };
 
@@ -29,6 +31,7 @@ export default function DisclosureDialog() {
         onClose={handleClose}
         aria-labelledby="disclosure-dialog-title"
         aria-describedby="disclosure-acknowledgment"
+        disableEscapeKeyDown= {true}
       >
         <DialogTitle id="disclosure-dialog-title" component="h1">
           {"Important Information and Usage Guidelines"}
@@ -72,3 +75,5 @@ export default function DisclosureDialog() {
     </div>
   );
 }
+
+//disableEscapeKeyDown	

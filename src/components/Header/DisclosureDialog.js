@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from 'react';
-//import MaterialUI components
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import './DisclosureDialog.css';
+//import MaterialUI components
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from '@mui/material'
 //import cookies from universal cookies
 import Cookies from 'universal-cookie';
 
 
 export default function DisclosureDialog() {
-  const [open, setOpen] = React.useState(false); //Dialog is open by default
+  const [open, setOpen] = React.useState(false); 
   const cookies = new Cookies();
 
   useEffect(() => {
-    const cookieIsSet = cookies.get('acceptDisclosure');
+    const cookieIsSet = cookies.get('acceptDisclosure'); //checks if cookie is set before opening Dialoog
     if(!cookieIsSet) {
       setOpen(true);
     }
@@ -35,8 +37,6 @@ export default function DisclosureDialog() {
 
 
   };
-
-
 
   return (
     <div>

@@ -22,10 +22,14 @@ const Entry = (props) => {
         <h5 className={S.title}>Details:</h5>
 
         <div className={S.sponsors}>
-          {sponsors.map((sponsor, i) => (
-            <span key={`${sponsor}-${i}`} data-bill-sponsor={sponsor}>
-              Sponsor: {sponsor}
-            </span>
+          Sponsor{`${sponsors.length > 1 ? "s" : ""}`}:{" "}
+          {sponsors.slice(0, 1).map((sponsor, i) => (
+            <div
+              key={`${sponsor}-${i}-${article.billNumber}`}
+              data-bill-sponsor={sponsor}
+            >
+              {sponsor}
+            </div>
           ))}
         </div>
         <div className={S.date}>

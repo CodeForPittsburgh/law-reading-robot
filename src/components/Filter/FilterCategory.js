@@ -1,15 +1,8 @@
+import { Types as _ } from ".";
 import React, { useCallback, useMemo } from "react";
 import { Button } from "react-bootstrap";
 import { useFilter } from "./FilterProvider";
 import S from "./FilterCategory.module.css";
-
-/**
- * @param {string} tag
- * @returns {Category} category in which tag is found
- */
-export const findCategory = (tag, categories) => {
-  return categories.find((category) => category.tags.includes(tag));
-};
 
 /**
  * Used in individual filter buttons. Do not use in {@link FilterCategory}.
@@ -23,12 +16,12 @@ export const FilterButton = ({ tag }) => {
   const categoryIdx = useMemo(
     /**
      * @returns {number} factory
-     * @param {FilterCategory} category
      */
     () => {
-      return filter.findIndex((c) => c.name === category.name);
+      if (category === undefined) return -1;
+      return filter.findIndex((c) => c === category);
     },
-    [filter, category.name]
+    [filter, category]
   );
 
   const isChecked = useMemo(
@@ -37,25 +30,26 @@ export const FilterButton = ({ tag }) => {
      */
     () => {
       const category = filter?.[categoryIdx];
-      const idx = category?.tags.findIndex((t) => t.name === tag);
-      return category?.tags[idx]?.active;
+      const idx = category?.buckets.findIndex((t) => t.name === tag);
+      return category?.buckets[idx]?.active;
     },
     [filter, categoryIdx, tag]
   );
 
-  /** @type {HandleSelect} */
+  /** @type {handleSelect} */
   const handleSelect = useCallback(
-    ({ id }) => {
-      // Get the values for the currentcategory
-      const values = filter?.[categoryIdx]?.tags;
-      const idx = values.findIndex((tag) => tag.name === id);
+    (bucket) => {
+      const { id } = bucket;
+      // Get the values for the current category
+      const values = filter?.[categoryIdx]?.buckets;
+      const idx = values.findIndex((bucket) => bucket.name === id);
       values[idx] = {
         ...values[idx],
         active: !values[idx]?.active,
       };
       const newValue = {
         name: category.name,
-        tags: values,
+        buckets: values,
       };
       handleChange(categoryIdx, newValue);
     },
@@ -74,6 +68,7 @@ export const FilterButton = ({ tag }) => {
 };
 
 /**
+ * @description Filter category places the filter buttons in a row.
  * @param {FilterCategoryProps} props
  */
 export const FilterCategory = ({ category }) => {
@@ -82,7 +77,6 @@ export const FilterCategory = ({ category }) => {
   const categoryIdx = useMemo(
     /**
      * @returns {number} factory
-     * @param {FilterCategory} category
      */
     () => {
       return filter.findIndex((c) => c.name === category.name);
@@ -90,11 +84,11 @@ export const FilterCategory = ({ category }) => {
     [filter, category.name]
   );
 
-  /** @type {HandleSelect} */
+  /** @type {handleSelect} */
   const handleSelect = useCallback(
     ({ id }) => {
-      // Get the values for the currentcategory
-      const values = filter?.[categoryIdx]?.tags;
+      // Get the values for the current category
+      const values = filter?.[categoryIdx]?.buckets;
       const idx = values.findIndex((tag) => tag.id === id);
       values[idx] = {
         ...values[idx],
@@ -102,7 +96,7 @@ export const FilterCategory = ({ category }) => {
       };
       const newValue = {
         name: category.name,
-        tags: values,
+        buckets: values,
       };
       handleChange(categoryIdx, newValue);
     },
@@ -112,8 +106,8 @@ export const FilterCategory = ({ category }) => {
   return (
     <div className={S.details}>
       {filter &&
-        filter?.[categoryIdx]?.tags.map((tag, i) => {
-          const isChecked = filter?.[categoryIdx]?.tags?.[i].active;
+        filter?.[categoryIdx]?.buckets.map((tag, i) => {
+          const isChecked = filter?.[categoryIdx]?.buckets?.[i].active;
           return (
             <Button
               key={i}
@@ -133,12 +127,12 @@ export default FilterCategory;
 
 /**
  * @typedef FilterCategoryProps
- * @prop {import("./FilterContainer").Category} category
+ * @prop {Filter} category
  */
 
 /**
- * @callback HandleSelect
- * @param {import("./FilterProvider").FilterCategory} id
+ * @callback handleSelect
+ * @param {FilterBucket} bucket
  * @returns {void}
  */
 

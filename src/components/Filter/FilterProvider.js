@@ -1,60 +1,7 @@
+import { Types as _ } from ".";
 import { useState, createContext, useContext, useEffect, useMemo } from "react";
-import { findCategory } from "./FilterCategory";
-
-/**
- * Dto for a filter tag.
- * @param {import("./FilterContainer").Category[]} categories
- * @returns {Filter[]}
- */
-const toFilter = (categories) => {
-  let offset = 0;
-  return categories.map((category, i) => {
-    offset++;
-    const tags = category.tags.map((tag, j) => {
-      if (j === 0) offset++;
-      return {
-        id: i + j + offset - 1,
-        name: tag,
-        active: false,
-        category: i,
-      };
-    });
-    return {
-      name: category.name,
-      tags,
-    };
-  });
-};
-
-/**
- * Because category data is not available in the filter context, we need to mock it.
- * However, mocked data below does not provide the category id; as a result, we need to
- * generate it ourselves. This is implicitly done via the `toFilter` function using the
- * an index of the category in the array as the id.
- *
- * This means that category data can be stored in the structure below i.e. with two properties:
- * - name
- * - tags (array of strings)
- * @type {Category[]}
- * */
-const CATEGORY_MOCK = [
-  {
-    name: "Category 1",
-    tags: ["Legislative reform", "Public policy", "Governance"],
-  },
-  {
-    name: "Category 2",
-    tags: ["Social justice", "Equality", "Human rights"],
-  },
-  {
-    name: "Category 3",
-    tags: ["Environmental protection", "Consumer protection", "Labor rights"],
-  },
-  {
-    name: "Category 4",
-    tags: ["Healthcare reform", "Education reform"],
-  },
-];
+import { useData } from "../../hooks/useData";
+import { FilterService } from "../../services/FilterService";
 
 /**
  * This should not be used directly. Instead, use the `useFilter` hook.
@@ -64,7 +11,7 @@ const FilterContext = createContext({
   /** @type {Filter[]} */ filter: [],
   /** @type {changeFilterCallback} */ handleChange: () => {},
   /** @type {getCategoryCallback} */ getCategory: () => {},
-  /** @type {FilterCategory[]} */ activeTags: [],
+  /** @type {FilterBucket[]} */ activeBuckets: [],
 });
 
 /**
@@ -99,7 +46,7 @@ export const useFilter = () => {
 /**
  * @param {FilterProps} props
  */
-export const useFilterContext = (categories) => {
+export const useFilterContext = (categories, data) => {
   /**
    * @type {[Filter[], React.Dispatch<Filter[]>]} state
    */
@@ -109,46 +56,88 @@ export const useFilterContext = (categories) => {
      */ []
   );
 
-  const handleChange = (i, value) => {
+  /**
+   * @param {string|number} key
+   * @param {Filter[]} value
+   * */
+  const handleChange = (key, value) => {
     const values = [...filter];
-    values[i] = value;
+    values[key] = value;
     setFilter(values);
   };
 
-  const getCategory = (tag) => {
-    return findCategory(tag, categories);
+  /**
+   * @param {string} bucketName
+   * @returns {Filter}
+   * */
+  const getCategory = (bucketName) => {
+    const cat = filter.find((category) => {
+      return category.buckets.find((bucket) => bucket.name === bucketName);
+    });
+
+    return cat ?? -1;
   };
 
-  const activeTags = useMemo(
+  const activeBuckets = useMemo(
     /**
-     * @returns {FilterCategory[]} factory
+     * @returns {FilterBucket[]} factory
      **/
     () => {
-      /** @type {FilterCategory[]} */
-      const tags = [];
+      /** @type {FilterBucket[]} */
+      const buckets = [];
       filter.forEach((category) => {
-        category.tags.forEach((tag) => {
-          if (tag.active) tags.push(tag);
+        category.buckets.forEach((bucket) => {
+          if (bucket.active) buckets.push(bucket);
         });
       });
-      return tags;
+      return buckets;
     },
     [filter]
   );
 
-  useEffect(() => {
-    const newFilter = toFilter(categories);
-    setFilter(newFilter);
-  }, [categories]);
+  const filteredData = useMemo(
+    /**
+     * @description Returns an array of data ids that match the active tags.
+     * @returns {number[]} factory
+     **/ () => {
+      /**
+       * Filter should be conjunction of all active tags within a category.
+       */
+      const grouped = activeBuckets.reduce((acc, { category, values }) => {
+        acc.set(category, [...(acc.get(category) || []), values]);
+        return acc;
+      }, new Map());
+      /**
+       * Intersection of all data ids between categories.
+       */
+      const dataIds = Array.from(grouped.values()).reduce((acc, values, i) => {
+        const ids = values.flat();
+        if (i === 0) return ids;
+        const intersection = acc.filter((id) => ids.includes(id));
+        return intersection.length === 0 ? [] : intersection;
+      }, []);
+      return dataIds;
+    },
+    [activeBuckets]
+  );
 
-  return { filter, handleChange, getCategory, activeTags };
+  useEffect(() => {
+    if (data) {
+      const newFilter = FilterService.toFilter(data);
+      setFilter(newFilter);
+    }
+  }, [categories, data]);
+
+  return { filter, handleChange, getCategory, activeBuckets, filteredData };
 };
 
 /**
- * @param {FilterProps} props
+ * @param {FilterProviderProps} props
  */
-export const FilterProvider = ({ categories = CATEGORY_MOCK, children }) => {
-  const context = useFilterContext(categories);
+export const FilterProvider = ({ categories, children }) => {
+  const { data } = useData();
+
+  const context = useFilterContext(categories, data);
   return (
     <FilterContext.Provider value={context}>{children}</FilterContext.Provider>
   );
@@ -157,42 +146,7 @@ export const FilterProvider = ({ categories = CATEGORY_MOCK, children }) => {
 export default FilterProvider;
 
 /**
- * @typedef FilterProps
+ * @typedef FilterProviderProps
  * @prop {import("./FilterContainer").Category[]} categories
- */
-
-/**
- * @typedef Filter
- * @property {string} name
- * @property {FilterCategory[]} tags
- */
-
-/**
- * @typedef FilterCategory
- * @property {number|string} id
- * @property {number} category
- * @property {string} name
- * @property {boolean} active
- */
-
-/**
- * @callback changeFilterCallback
- * @param {string|number} key
- * @param {unkown} value
- */
-
-/**
- * @callback getCategoryCallback
- * @param {string|number} key
- * @param {unkown} value
- * @returns {number}
- * */
-
-/**
- * @typedef FilterContext
- * @type {object}
- * @property {Filter[]} filter - key and values used to filter.
- * @property {changeFilterCallback} [handleChange] - callback used to set keys and value on filter
- * @property {getCategoryCallback} [getCategory] - callback used to get index of filter with given key and value
- * @property {FilterCategory[]} [activeTags] - array of active tags
+ * @prop {React.ReactNode} children
  */

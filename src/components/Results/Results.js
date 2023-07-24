@@ -9,35 +9,47 @@ import { FilterButton, useFilter } from "../Filter";
  **/
 const Results = (props) => {
   const [sorted, setSorted] = useState("");
-  const { activeTags } = useFilter();
+  const { activeBuckets, filteredData } = useFilter();
 
   const filteredArticles = useMemo(() => {
     let articles = props.articles;
+    let filtered = [];
     if (sorted) {
       articles = sortBy(sorted, articles);
     }
-    const filtered = articles.filter((article) => {
-      const { tags } = article;
-      const tagNames = activeTags?.map((tag) => tag.name);
-      return tagNames ? tags.some((tag) => tagNames.includes(tag)) : true;
-    });
-    // If there are active tags and no results, return empty array
-    return activeTags.length > 0 ? filtered : articles;
-  }, [activeTags, sorted, props.articles]);
+
+    if (filteredData) {
+      filtered = articles.filter(({ id }) => {
+        return filteredData.includes(id);
+      });
+    }
+
+    // If there are no active buckets, return all articles. Otherwise, return filtered articles.
+    return activeBuckets.length > 0 ? filtered : articles;
+  }, [activeBuckets, sorted, props.articles, filteredData]);
 
   return (
     <section className={S.summaries}>
-      {filteredArticles.length && (
-        <Sort handleSort={setSorted} objects={filteredArticles} />
+      {filteredArticles.length > 0 ? (
+        <>
+          <Sort handleSort={setSorted} objects={filteredArticles} />
+          <div className={S.container}>
+            <h2 className={S.title}>Bills</h2>
+            <p className={S.total}>({filteredArticles.length} Results)</p>
+          </div>
+        </>
+      ) : (
+        <div className={S.container}>
+          <h2 className={S.title}>No bills match your search.</h2>
+        </div>
       )}
-      <h2 className={S.title}>Bills</h2>
-      {filteredArticles.map((article) => {
+      {filteredArticles.map((article, i) => {
         return (
-          <li key={article.billNumber}>
+          <li key={`${article.billNumber}-${i}`}>
             <Entry article={article} />
             <div className={S.tags}>
-              {article.tags.map((tag, i) => (
-                <FilterButton key={`${tag}-${i}`} tag={tag} />
+              {article.tags.map((tag, j) => (
+                <FilterButton key={`${tag}-${j}`} tag={tag} />
               ))}
             </div>
           </li>

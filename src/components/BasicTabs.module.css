@@ -1,20 +1,4 @@
-.filter {
-  border-bottom: var(--border-small);
-}
-
-@media (min-width: 768px) {
-  .filter {
-    border-bottom: none;
-    border-right: var(--border-small);
-  }
-}
-
-.results {
-  padding-left: clamp(var(--space-sm), 3vw, var(--space-lg));
-}
-
-@media (min-width: 768px) {
-  .results {
-    padding-left: none;
-  }
+.container {
+  max-height: var(--max-container-height);
+  overflow-y: scroll;
 }

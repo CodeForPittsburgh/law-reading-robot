@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 //import MaterialUI components
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -7,19 +7,36 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import './DisclosureDialog.css';
+//import cookies from universal cookies
+import Cookies from 'universal-cookie';
+
 
 export default function DisclosureDialog() {
-  const [open, setOpen] = React.useState(true); //Dialog is open by default
+  const [open, setOpen] = React.useState(false); //Dialog is open by default
+  const cookies = new Cookies();
+
+  useEffect(() => {
+    const cookieIsSet = cookies.get('acceptDisclosure');
+    if(!cookieIsSet) {
+      setOpen(true);
+    }
+  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = (event, reason) => {
-    if (reason && reason == "backdropClick") 
+    if (reason && reason == "backdropClick") // Disables closing on background clicks
         return;
     setOpen(false);
+    cookies.set('acceptDisclosure', 'true', { path: '/'});
+    console.log(cookies.get('acceptDisclosure'));
+
+
   };
+
+
 
   return (
     <div>
@@ -56,7 +73,7 @@ export default function DisclosureDialog() {
           </DialogTitle>
           <DialogContentText>
           Please note the following recommendations for the best use of this application:
-          <ol class="ordered-list">
+          <ol className="ordered-list">
             <li><b>Consult the full bill text</b>: The summaries provided by ChatGPT are designed to offer a brief overview of each bill, but they are not a substitute for the full bill text. To gain a comprehensive understanding of a bill, it is highly recommended to review the complete bill text.</li>
             <li><b>Exercise caution</b>: ChatGPT's responses may include inaccurate information about people, places, or facts. While efforts have been made to train ChatGPT to provide helpful information, it may produce errors or misleading content. It is important to verify information from reliable sources before drawing conclusions or making decisions based on ChatGPT's responses.</li>
           </ol>
@@ -67,7 +84,7 @@ export default function DisclosureDialog() {
         </DialogContent>
       
         <DialogActions>
-          <Button onClick={handleClose} autoFocus>
+          <Button id="AcceptBtn" onClick={handleClose} autoFocus>
             Accept
           </Button>
         </DialogActions>
@@ -76,4 +93,3 @@ export default function DisclosureDialog() {
   );
 }
 
-//disableEscapeKeyDown	

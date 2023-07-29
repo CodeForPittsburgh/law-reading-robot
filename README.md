@@ -8,7 +8,14 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### Prerequisites
 
-You will need to obtain the database connection string and key from a Code for Pittsburgh member and add them to a `.env.local` file on your local machine to access the app's database. Please request these details in the Code for Pittsburgh Slack channel.
+You will need to obtain the database connection string and key from a Code for Pittsburgh member and add them to a `.env.local` file on your local machine to access the app's database. The `.env.local` file should contain the following variables:
+
+```bash
+REACT_APP_SUPABASE_ANON_KEY=your_supabase_anon_key
+REACT_APP_SUPABASE_URL=your_supabase_url
+```
+
+Please request these details in the Code for Pittsburgh Slack channel.
 
 ## Development
 

@@ -3,11 +3,15 @@ import Entry from "./Entry";
 import { useMemo, useState } from "react";
 import { Sort, sortBy } from "../Sort";
 import { FilterButton, useFilter } from "../Filter";
+import useData from "../../hooks/useData";
+
+import { Button } from "react-bootstrap";
 
 /**
  * @param {ResultsProps} props
  **/
 const Results = (props) => {
+  const { handleNext } = useData();
   const [sorted, setSorted] = useState("");
   const { activeBuckets, filteredData } = useFilter();
 
@@ -55,6 +59,15 @@ const Results = (props) => {
           </li>
         );
       })}
+      {handleNext && (
+        <Button
+          variant={"outline-primary"}
+          className={S.button}
+          onClick={handleNext}
+        >
+          Load More
+        </Button>
+      )}
     </section>
   );
 };

@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useState, useCallback } from "react";
 import { TextField } from "@mui/material";
 import S from "./Search.module.css";
+import useData from "../../hooks/useData";
 
 /**
  * This should not be used directly. Instead, use the `useSearch` hook.
@@ -9,6 +10,7 @@ import S from "./Search.module.css";
 const SearchContext = createContext({
   /** @type {string} */ search: "",
   /** @type {searchCallback} */ handleChange: () => {},
+  /** @type {searchCallback} */ handleSearch: () => {},
 });
 
 /**
@@ -23,7 +25,7 @@ export const useSearch = () => {
  * @param {searchCallback} handleSearch
  * @returns {SearchContext}
  * */
-const useSearchContext = (handleSearch) => {
+const useSearchContext = (searchCallback) => {
   /**
    * @type {[string, React.Dispatch<string>]} state
    * */
@@ -33,20 +35,25 @@ const useSearchContext = (handleSearch) => {
     setSearch(e.target.value);
   };
 
-  useEffect(() => {
-    if (handleSearch) handleSearch(search);
-  }, [search, handleSearch]);
+  const handleSearch = useCallback(
+    (search) => {
+      if (searchCallback) searchCallback(search);
+    },
+    [searchCallback]
+  );
 
   return {
     search,
     handleChange,
+    handleSearch,
   };
 };
 
 /**
  * @param {SearchProviderProps} props
  * */
-export const SearchProvider = ({ children, handleSearch }) => {
+export const SearchProvider = ({ children }) => {
+  const { handleSearch } = useData();
   const value = useSearchContext(handleSearch);
 
   return (
@@ -55,7 +62,7 @@ export const SearchProvider = ({ children, handleSearch }) => {
 };
 
 export const Search = () => {
-  const { search, handleChange } = useSearch();
+  const { search, handleChange, handleSearch } = useSearch();
   return (
     <TextField
       className={S.search}
@@ -64,6 +71,11 @@ export const Search = () => {
       variant="outlined"
       value={search}
       onChange={handleChange}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          handleSearch(search);
+        }
+      }}
     />
   );
 };
@@ -77,6 +89,7 @@ export const Search = () => {
  * @typedef SearchContext
  * @property {string} search
  * @property {searchCallback} handleChange
+ * @property {searchCallback} handleSearch
  * */
 
 /**

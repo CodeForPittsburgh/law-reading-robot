@@ -46,17 +46,21 @@ const useDataContext = () => {
    * */
   const [error, setError] = useState(null);
 
+  const [canLoadMore, setCanLoadMore] = useState(true);
+
   const handleAction = useCallback(
     /**
      * @param {_BillModel[]} data
      * @param {boolean} loading
      * @param {string|null} error
-     */ (data, loading, error) => {
+     * @param {boolean} canLoadMore
+     */ (data, loading, error, canLoadMore) => {
       setData(data);
       setLoading(loading);
       setError(error);
+      setCanLoadMore(canLoadMore);
     },
-    [setData, setLoading, setError]
+    [setData, setLoading, setError, setCanLoadMore]
   );
 
   const handleNext = useCallback(async () => {
@@ -72,7 +76,12 @@ const useDataContext = () => {
       }
     );
     // Set data, stop loading.
-    handleAction([...data, ..._data], false, null);
+    handleAction(
+      [...data, ..._data],
+      false,
+      null,
+      _data.length > 0 ? true : false
+    );
   }, [handleAction, data]);
 
   /**
@@ -86,11 +95,16 @@ const useDataContext = () => {
     async (search) => {
       if (search) {
         // Begin loading, reset error.
-        handleAction(data, true, null);
+        handleAction(data, true, null, false);
         await DataService.Search(search)
           .then((data) => {
             // Set data, stop loading.
-            handleAction(data, false, null);
+            handleAction(
+              data,
+              false,
+              null,
+              data.length < DataService.increment ? false : true
+            );
           })
           .catch(
             /**
@@ -98,7 +112,7 @@ const useDataContext = () => {
              */
             (error) => {
               // Catch the error if the server is not running, but set the data to most recent valid data.
-              handleAction(data, false, error.message);
+              handleAction(data, false, error.message, false);
             }
           );
       }
@@ -112,23 +126,28 @@ const useDataContext = () => {
   useEffect(() => {
     if (data) return;
     // Begin loading, reset error.
-    handleAction(data, true, null);
+    handleAction(data, true, null, false);
     DataService.FetchData()
       .then((data) => {
         // Set data, stop loading.
-        handleAction(data, false, null);
+        handleAction(
+          data,
+          false,
+          null,
+          data.length < 10 ? DataService.increment : true
+        );
       })
       .catch(
         /**
          * @param {Error} error
          */ (error) => {
           // Catch the error if the server is not running, but set the data to most recent valid data.
-          handleAction(data, false, error);
+          handleAction(data, false, error, false);
         }
       );
   }, [data, handleAction]);
 
-  return { data, loading, error, handleSearch, handleNext };
+  return { data, loading, error, handleSearch, handleNext, canLoadMore };
 };
 
 const DataProvider = ({ children }) => {
@@ -145,6 +164,7 @@ export { DataProvider, useData };
  * @property {string|null} error
  * @property {searchCallback} handleSearch
  * @property {nextCallback} handleNext
+ * @property {boolean} canLoadMore
  */
 
 /**

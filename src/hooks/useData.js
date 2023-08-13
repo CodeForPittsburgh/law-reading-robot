@@ -71,7 +71,6 @@ const useDataContext = () => {
         handleAction(data, false, error.message);
       }
     );
-    console.log(_data);
     // Set data, stop loading.
     handleAction([...data, ..._data], false, null);
   }, [handleAction, data]);

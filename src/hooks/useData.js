@@ -54,7 +54,7 @@ const useDataContext = () => {
      * @param {boolean} loading
      * @param {string|null} error
      * @param {boolean} canLoadMore
-     */ (data, loading, error, canLoadMore) => {
+     */ (data = [], loading = false, error = null, canLoadMore = false) => {
       setData(data);
       setLoading(loading);
       setError(error);

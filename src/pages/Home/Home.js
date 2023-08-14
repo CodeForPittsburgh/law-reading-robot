@@ -17,9 +17,7 @@ import S from "./Home.module.css";
  * @returns {JSX.Element}
  */
 export const Home = () => {
-  const { data, error } = useData();
-
-  console.log(data, error);
+  const { data } = useData();
 
   return (
     <SearchProvider>
@@ -45,7 +43,7 @@ export const Home = () => {
           {data && data.length > 0 ? (
             <Results articles={data} />
           ) : (
-            <div className={S.container}>
+            <div className={S["no-results"]}>
               <h2 className={S.title}>No bills match your search.</h2>
             </div>
           )}

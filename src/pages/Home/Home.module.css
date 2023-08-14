@@ -1,3 +1,9 @@
+.no-results {
+  margin-top: var(--space-md);
+  display: grid;
+  place-content: center;
+}
+
 .footer {
   border-top: var(--border-small);
   margin-top: var(--space-md);

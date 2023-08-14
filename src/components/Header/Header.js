@@ -5,7 +5,6 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuPopupState from "./PopupMenu";
 import DisclosureDialog from "./DisclosureDialog";
-//import MenuIcon from "@mui/icons-material/Menu";
 
 function Header() {
   return (

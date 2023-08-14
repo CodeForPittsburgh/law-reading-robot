@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import "./DisclosureDialog.css";
+import React, { useEffect, useMemo } from "react";
+import S from "./DisclosureDialog.module.css";
 //import MaterialUI components
 import {
   Button,
@@ -14,27 +14,27 @@ import Cookies from "universal-cookie";
 
 export default function DisclosureDialog() {
   const [open, setOpen] = React.useState(false);
-  const cookies = new Cookies();
-
-  useEffect(() => {
-    const cookieIsSet = cookies.get("acceptDisclosure"); //checks if cookie is set before opening Dialoog
-    if (!cookieIsSet) {
-      setOpen(true);
-    }
-  }, []);
+  const cookies = useMemo(() => new Cookies(), []);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = (event, reason) => {
-    if (reason && reason == "backdropClick")
+    if (reason && reason === "backdropClick")
       // Disables closing on background clicks
       return;
     setOpen(false);
     cookies.set("acceptDisclosure", "true", { path: "/" });
     console.log(cookies.get("acceptDisclosure"));
   };
+
+  useEffect(() => {
+    const cookieIsSet = cookies.get("acceptDisclosure"); //checks if cookie is set before opening Dialoog
+    if (!cookieIsSet) {
+      setOpen(true);
+    }
+  }, [cookies]);
 
   return (
     <div>
@@ -76,7 +76,7 @@ export default function DisclosureDialog() {
           <DialogContentText>
             Please note the following recommendations for the best use of this
             application:
-            <ol className="ordered-list">
+            <ol className={S["ordered-list"]}>
               <li>
                 <b>Consult the full bill text</b>: The summaries provided by
                 ChatGPT are designed to offer a brief overview of each bill, but

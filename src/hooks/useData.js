@@ -142,7 +142,7 @@ const useDataContext = () => {
          * @param {Error} error
          */ (error) => {
           // Catch the error if the server is not running, but set the data to most recent valid data.
-          handleAction(data, false, error, false);
+          handleAction(data, false, error.message, false);
         }
       );
   }, [data, handleAction]);

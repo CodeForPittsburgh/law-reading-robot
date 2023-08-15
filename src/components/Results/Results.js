@@ -11,7 +11,7 @@ import { Button } from "react-bootstrap";
  * @param {ResultsProps} props
  **/
 const Results = (props) => {
-  const { handleNext, canLoadMore } = useData();
+  const { handleNext, next } = useData();
   const [sorted, setSorted] = useState("");
   const { activeBuckets, filteredData } = useFilter();
 
@@ -59,7 +59,7 @@ const Results = (props) => {
           </li>
         );
       })}
-      {handleNext && canLoadMore && (
+      {handleNext && next && (
         <Button
           variant={"outline-primary"}
           className={S.button}

@@ -14,10 +14,27 @@ import { Types as _, BillModel as _BillModel } from "../models/Bill";
  * // [BillModel, BillModel, BillModel, ...]
  */
 export class DataService {
+  /**
+   * @memberof DataService
+   * @description The Supabase client. Should not be used outside of this service.
+   * @static
+   * @type {import("@supabase/supabase-js").SupabaseClient}
+   */
   static client = supabase;
+
+  /**
+   * @memberof DataService
+   * @description The number of data to fetch at a time.
+   * @static
+   * @type {number}
+   * @default 10
+   */
   static increment = 10;
 
   /**
+   * @description A function that fetches the next set of data. This is
+   * set by as a static property by the most recent call to FetchData or
+   * Search.
    * @memberof DataService
    * @static
    * @async
@@ -83,6 +100,7 @@ export class DataService {
         message: "Error loading initial bill data! Please try again.",
       });
 
+    // If there is no data, set Next to return an empty array. This prevents the call
     this.Next = async () => {
       if (data.length < this.increment) return [];
       const _data = await this.FetchData(range + this.increment);

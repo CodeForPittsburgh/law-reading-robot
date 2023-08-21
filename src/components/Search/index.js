@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
 import { TextField } from "@mui/material";
 import S from "./Search.module.css";
-import useData from "../../hooks/useData";
+import { Button } from "react-bootstrap";
+import { useData } from "../../hooks/useData";
 
 /**
  * This should not be used directly. Instead, use the `useSearch` hook.
@@ -51,7 +52,7 @@ const useSearchContext = (searchCallback) => {
 
 /**
  * @param {SearchProviderProps} props
- * */
+ **/
 export const SearchProvider = ({ children, handleSearch }) => {
   const value = useSearchContext(handleSearch);
 
@@ -76,6 +77,15 @@ export const Search = () => {
         }
       }}
     />
+  );
+};
+
+export const SearchClear = () => {
+  const { handleFetch } = useData();
+  return (
+    <Button variant="outline-primary" onClick={handleFetch}>
+      New Search
+    </Button>
   );
 };
 

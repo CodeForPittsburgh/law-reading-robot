@@ -32,3 +32,11 @@
   gap: var(--space-sm);
   justify-content: flex-end;
 }
+
+.toolbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-md);
+}

@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Sort, sortBy } from "../Sort";
 import { FilterButton, useFilter } from "../Filter";
 import useData from "../../hooks/useData";
+import { SearchClear } from "../Search";
 
 import { Button } from "react-bootstrap";
 
@@ -36,7 +37,10 @@ const Results = (props) => {
     <section className={S.summaries}>
       {filteredArticles.length > 0 ? (
         <>
-          <Sort handleSort={setSorted} objects={filteredArticles} />
+          <div className={S.toolbar}>
+            <SearchClear />
+            <Sort handleSort={setSorted} objects={filteredArticles} />
+          </div>
           <div className={S.container}>
             <h2 className={S.title}>Bills</h2>
             <p className={S.total}>({filteredArticles.length} Results)</p>

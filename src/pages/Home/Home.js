@@ -9,6 +9,8 @@ import {
   Footer,
 } from "../../components";
 
+import { SearchClear } from "../../components/Search";
+
 import { useData } from "../../hooks/useData";
 import S from "./Home.module.css";
 
@@ -45,6 +47,7 @@ export const Home = () => {
           ) : (
             <div className={S["no-results"]}>
               <h2 className={S.title}>No bills match your search.</h2>
+              <SearchClear />
             </div>
           )}
         </Col>

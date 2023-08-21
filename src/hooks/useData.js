@@ -18,6 +18,7 @@ const DataContext = createContext(
     /** @type {string|null} */ error: null,
     /** @type {searchCallback} */ handleSearch: () => {},
     /** @type {nextCallback} */ handleNext: () => {},
+    /** @type {fetachCallback} */ handleFetch: () => {},
     /** @type {boolean} */ next: true,
   }
 );
@@ -102,6 +103,27 @@ const useDataContext = () => {
     [setData, setLoading, setError, setNext]
   );
 
+  const handleFetch = useCallback(async () => {
+    // Begin loading, reset error.
+    handleAction(data, true, null, false);
+    const _data = await DataService.FetchData().catch(
+      /**
+       * @param {Error} error
+       * */
+      (error) => {
+        // Set error, stop loading.
+        handleAction(data, false, error.message, false);
+      }
+    );
+    // Set data, stop loading.
+    handleAction(
+      _data,
+      false,
+      null,
+      _data.length < DataService.increment ? false : true
+    );
+  }, [handleAction, data]);
+
   const handleNext = useCallback(async () => {
     // Begin loading, reset error.
     handleAction(data, true, null);
@@ -133,8 +155,15 @@ const useDataContext = () => {
      * */
     async (search) => {
       if (search) {
+        console.log("Searching for: ", search);
+        if (search === "") {
+          console.log("Fetching data...");
+          handleFetch();
+          return;
+        }
         // Begin loading, reset error.
         handleAction(data, true, null, false);
+
         await DataService.Search(search)
           .then((data) => {
             // Set data, stop loading.
@@ -156,7 +185,7 @@ const useDataContext = () => {
           );
       }
     },
-    [handleAction, data]
+    [handleAction, data, handleFetch]
   );
 
   /**
@@ -186,7 +215,7 @@ const useDataContext = () => {
       );
   }, [data, handleAction]);
 
-  return { data, loading, error, next, handleSearch, handleNext };
+  return { data, loading, error, next, handleSearch, handleNext, handleFetch };
 };
 
 /**
@@ -210,6 +239,7 @@ export { DataProvider, useData };
  * @property {string|null} error
  * @property {searchCallback} handleSearch
  * @property {nextCallback} handleNext
+ * @property {fetchCallback} handleFetch
  * @property {boolean} next
  */
 
@@ -226,6 +256,12 @@ export { DataProvider, useData };
 /**
  * @callback dataCallback
  * @param {_BillModel[]} data
+ * @returns {void}
+ */
+
+/**
+ * @description Fetches default data.
+ * @callback fetchCallback
  * @returns {void}
  */
 

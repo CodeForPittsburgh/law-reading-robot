@@ -17,10 +17,10 @@ import S from "./Home.module.css";
  * @returns {JSX.Element}
  */
 export const Home = () => {
-  const { data } = useData();
+  const { data, handleSearch } = useData();
 
   return (
-    <SearchProvider>
+    <SearchProvider handleSearch={handleSearch}>
       <FilterProvider>
         <Col md={3} className={S.sidebar}>
           <Row>

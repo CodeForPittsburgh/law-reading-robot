@@ -52,8 +52,7 @@ const useSearchContext = (searchCallback) => {
 /**
  * @param {SearchProviderProps} props
  * */
-export const SearchProvider = ({ children }) => {
-  const { handleSearch } = useData();
+export const SearchProvider = ({ children, handleSearch }) => {
   const value = useSearchContext(handleSearch);
 
   return (

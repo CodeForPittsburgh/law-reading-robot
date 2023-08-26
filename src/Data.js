@@ -1,4 +1,5 @@
 import { Types as _, BillModel } from "./models/Bill";
+import { SupabaseBillData as _supabaseBill } from "./services/DataService";
 let id = 0;
 
 export const rssFiles = [
@@ -161,6 +162,11 @@ export function generateRandomBill() {
   });
 }
 
+/**
+ *
+ * @param {_supabaseBill} bill
+ * @returns
+ */
 export const toBillModel = (bill) => {
   return new BillModel({
     id: bill.id,
@@ -171,7 +177,7 @@ export const toBillModel = (bill) => {
     link: bill.link,
     tags: bill.tags,
     versionHistory: [],
-    sponsors: [bill["primary-sponsor"], ...bill["co-sponsors"]],
+    sponsors: [bill["primary-sponsor"], ...(bill?.["co-sponsors"] ?? [])],
     status: bill.status["last_action"],
     isReviewed: false,
   });

@@ -8,7 +8,7 @@ import S from "./FilterContainer.module.css";
 
 /**
  * @description Filter container component for the sidebar. This component
- * will render a list of `FilterCategory` components in an accordion.
+ * will render a list of {@link FilterCategory} components in an accordion.
  * @returns {JSX.Element}
  */
 export const FilterContainer = () => {

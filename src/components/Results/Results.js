@@ -3,11 +3,16 @@ import Entry from "./Entry";
 import { useMemo, useState } from "react";
 import { Sort, sortBy } from "../Sort";
 import { FilterButton, useFilter } from "../Filter";
+import useData from "../../hooks/useData";
+import { SearchClear } from "../Search";
+
+import { Button } from "react-bootstrap";
 
 /**
  * @param {ResultsProps} props
  **/
 const Results = (props) => {
+  const { handleNext, next } = useData();
   const [sorted, setSorted] = useState("");
   const { activeBuckets, filteredData } = useFilter();
 
@@ -32,7 +37,10 @@ const Results = (props) => {
     <section className={S.summaries}>
       {filteredArticles.length > 0 ? (
         <>
-          <Sort handleSort={setSorted} objects={filteredArticles} />
+          <div className={S.toolbar}>
+            <SearchClear />
+            <Sort handleSort={setSorted} objects={filteredArticles} />
+          </div>
           <div className={S.container}>
             <h2 className={S.title}>Bills</h2>
             <p className={S.total}>({filteredArticles.length} Results)</p>
@@ -55,6 +63,15 @@ const Results = (props) => {
           </li>
         );
       })}
+      {handleNext && next && (
+        <Button
+          variant={"outline-primary"}
+          className={S.button}
+          onClick={handleNext}
+        >
+          Load More
+        </Button>
+      )}
     </section>
   );
 };

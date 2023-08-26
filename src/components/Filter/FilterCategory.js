@@ -89,15 +89,18 @@ export const FilterCategory = ({ category }) => {
     ({ id }) => {
       // Get the values for the current category
       const values = filter?.[categoryIdx]?.buckets;
+      // Find the index of the value to change
       const idx = values.findIndex((tag) => tag.id === id);
       values[idx] = {
         ...values[idx],
         active: !values[idx].active,
       };
+      // Create the new value
       const newValue = {
         name: category.name,
         buckets: values,
       };
+      // Update the filter
       handleChange(categoryIdx, newValue);
     },
     [filter, handleChange, categoryIdx, category.name]

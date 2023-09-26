@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/law-reading-robot/static/css/main.3a90d695.css",
-    "main.js": "/law-reading-robot/static/js/main.0f1bda5f.js",
+    "main.js": "/law-reading-robot/static/js/main.a6693f6d.js",
     "static/js/787.33e928be.chunk.js": "/law-reading-robot/static/js/787.33e928be.chunk.js",
     "static/media/HouseBillsAndResolutions.csv": "/law-reading-robot/static/media/HouseBillsAndResolutions.0086c541f73b0643cb57.csv",
     "static/media/SenateBillsAndResolutions.csv": "/law-reading-robot/static/media/SenateBillsAndResolutions.71045d2cab61068deea5.csv",
@@ -25,11 +25,11 @@
     "index.html": "/law-reading-robot/index.html",
     "static/media/HouseVotedAmendments.csv": "/law-reading-robot/static/media/HouseVotedAmendments.273fe05f41cef95c88b8.csv",
     "main.3a90d695.css.map": "/law-reading-robot/static/css/main.3a90d695.css.map",
-    "main.0f1bda5f.js.map": "/law-reading-robot/static/js/main.0f1bda5f.js.map",
+    "main.a6693f6d.js.map": "/law-reading-robot/static/js/main.a6693f6d.js.map",
     "787.33e928be.chunk.js.map": "/law-reading-robot/static/js/787.33e928be.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.3a90d695.css",
-    "static/js/main.0f1bda5f.js"
+    "static/js/main.a6693f6d.js"
   ]
 }

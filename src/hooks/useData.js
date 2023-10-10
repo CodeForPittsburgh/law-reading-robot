@@ -154,7 +154,6 @@ const useDataContext = () => {
      * @param {string} search
      * */
     async (search) => {
-      if (search) {
         console.log("Searching for: ", search);
         if (search === "") {
           console.log("Fetching data...");
@@ -183,7 +182,6 @@ const useDataContext = () => {
               handleAction(data, false, error.message, false);
             }
           );
-      }
     },
     [handleAction, data, handleFetch]
   );

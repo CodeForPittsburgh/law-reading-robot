@@ -1,3 +1,5 @@
+import { useSearchParams } from "react-router-dom";
+
 import { Types as _ } from "../../models/Bill/types";
 import { Row, Col } from "react-bootstrap";
 import {
@@ -7,6 +9,7 @@ import {
   SearchProvider,
   Results,
   Footer,
+  Pagination
 } from "../../components";
 
 import { SearchClear } from "../../components/Search";
@@ -19,8 +22,7 @@ import S from "./Home.module.css";
  * @returns {JSX.Element}
  */
 export const Home = () => {
-  const { data, handleSearch } = useData();
-
+  const { data, count, handleSearch, handleNextPage } = useData();
   return (
     <SearchProvider handleSearch={handleSearch}>
       <FilterProvider>
@@ -43,7 +45,10 @@ export const Home = () => {
         </Col>
         <Col className={S.results}>
           {data && data.length > 0 ? (
-            <Results articles={data} />
+            <>
+              <Results articles={data} />
+              <Pagination total={count} handleNextPage={handleNextPage} />
+            </>
           ) : (
             <div className={S["no-results"]}>
               <h2 className={S.title}>No bills match your search.</h2>

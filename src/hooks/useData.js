@@ -49,7 +49,7 @@ const DataContext = createContext(
  *
  * @returns {DataContext}
  */
-const useData = (page=1) => {
+const useData = () => {
   const context = useContext(DataContext);
   if (!context) {
     throw new Error("useData must be used within a DataProvider");
@@ -114,7 +114,7 @@ const useDataContext = () => {
 
   const handleFetch = useCallback(async () => {
     // Begin loading, reset error.
-    handleAction(data, 0, true, null, 1);
+    handleAction([], 0, true, null, 1);
     const {data, count} = await DataService.FetchData().catch(
       /**
        * @param {Error} error
@@ -173,10 +173,11 @@ const useDataContext = () => {
         handleAction(data, true, null, 1);
 
         await DataService.Search(search)
-          .then((data) => {
+          .then(({data, count}) => {
             // Set data, stop loading.
             handleAction(
               data,
+              count,
               false,
               null,
               1
@@ -188,11 +189,11 @@ const useDataContext = () => {
              */
             (error) => {
               // Catch the error if the server is not running, but set the data to most recent valid data.
-              handleAction(data, false, error.message, 1);
+              handleAction(data, 0,false, error.message, 1);
             }
           );
     },
-    [handleAction, data, handleFetch]
+    [handleAction, data, count, handleFetch]
   );
 
   /**

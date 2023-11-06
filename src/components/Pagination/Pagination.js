@@ -23,7 +23,7 @@ const Pagination = ({ total, handleNextPage }) => {
         {Array.from({ length: totalPages }, (_, index) => {
           const page = index + 1;
           return (
-            <li className={paramPage == page ? 'bg-primary': ''} key={page} onClick={() => handlePageChange(page)}>
+            <li className={paramPage == page ? 'bg-primary '+S.text_white: ''} key={page} onClick={() => handlePageChange(page)}>
               {page}
             </li>
           );

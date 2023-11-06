@@ -17,8 +17,8 @@
 .pagination li:hover {
     cursor: pointer;
 }
-.pagination > .bg-primay {
-    color: #fff;
+.text_white {
+    color: white;
 }
 
 .pagination_warpper {

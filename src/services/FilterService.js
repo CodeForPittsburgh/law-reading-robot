@@ -30,7 +30,6 @@ export class FilterService {
         buckets: [],
       };
     });
-
     // Using categories to access data properties, populate the filter buckets.
     data.reduce((acc, item) => {
       values.forEach((category, i) => {

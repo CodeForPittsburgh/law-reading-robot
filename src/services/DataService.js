@@ -24,15 +24,15 @@ export class DataService {
 
   /**
    * @memberof DataService
-   * @description The number of data to fetch at a time.
+   * @description The number of data to show per page.
    * @static
    * @type {number}
    * @default 10
    */
-  static increment = 10;
+  static itemsPerPage = 10;
 
   /**
-   * @description A function that fetches the next set of data. This is
+   * @description A function that fetches the nextPage set of data. This is
    * set by as a static property by the most recent call to FetchData or
    * Search.
    * @memberof DataService
@@ -40,7 +40,7 @@ export class DataService {
    * @async
    * @returns {Promise<_BillModel[]>|Promise<Error>}
    */
-  static Next = async () => {};
+  static NextPage = async (page = 1) => {};
 
   /**
    * @param {DataError} error
@@ -85,14 +85,15 @@ export class DataService {
    * const data = await DataService.FetchData();
    * // [BillModel, BillModel, BillModel, ...]
    * */
-  static async FetchData(range = 0) {
+  static async FetchData(page = 1) {
     /**
      * @type {import("@supabase/supabase-js").PostgrestResponse<SupabaseBillData>}
      */
-    const { data, error } = await this.client
+    const offset = (page - 1) * this.itemsPerPage;
+    const { data, count,error } = await this.client
       .from("bill_data")
-      .select("*")
-      .range(range, range + this.increment - 1)
+      .select("*", {count: 'exact'})
+      .range(offset, offset + this.itemsPerPage - 1)
       .order("id", { ascending: true });
     if (error != null)
       this.Error({
@@ -100,14 +101,14 @@ export class DataService {
         message: "Error loading initial bill data! Please try again.",
       });
 
-    // If there is no data, set Next to return an empty array. This prevents the call
-    this.Next = async () => {
-      if (data.length < this.increment) return [];
-      const _data = await this.FetchData(range + this.increment);
+    // If there is no data, set NextPage to return an empty array. This prevents the call
+    this.NextPage = async (page=1) => {
+      console.log(page, 'pageeee');
+      const _data = await this.FetchData(page);
       return _data;
     };
 
-    return this.handleBillData(data);
+    return {data: this.handleBillData(data), count};
   }
 
   /**
@@ -121,26 +122,26 @@ export class DataService {
    * const data = await DataService.Search("test");
    * // [BillModel, BillModel, BillModel, ...]
    * */
-  static async Search(searchTerm, range = 0) {
+  static async Search(searchTerm, page = 1) {
     /**
      * @type {import("@supabase/supabase-js").PostgrestResponse<SupabaseBillData>}
      * */
-    const { data, error } = await this.client
+    const offset = (page - 1) * this.itemsPerPage;
+    const { data, count,error } = await this.client
       .from("bill_data")
-      .select()
-      .range(range, range + this.increment)
+      .select("*", {count: "exact"})
+      .range(offset, offset + this.itemsPerPage - 1)
       .textSearch("description", `%${searchTerm}%`);
 
     if (error != null)
       this.Error({ error, message: "An error occured with your search." });
 
-    this.Next = async () => {
-      if (data.length < this.increment) return [];
-      const _data = await this.Search(searchTerm, range + this.increment);
+    this.NextPage = async (page=1) => {
+      const _data = await this.Search(page);
       return _data;
     };
 
-    return this.handleBillData(data);
+    return {data: this.handleBillData(data), count};
   }
 }
 

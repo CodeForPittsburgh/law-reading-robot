@@ -7,6 +7,8 @@ import {
   useCallback,
   useEffect,
 } from "react";
+import { useSearchParams } from 'react-router-dom';
+import { NextPlan } from '@mui/icons-material';
 
 const DataContext = createContext(
   /**
@@ -17,9 +19,9 @@ const DataContext = createContext(
     /** @type {boolean} */ loading: false,
     /** @type {string|null} */ error: null,
     /** @type {searchCallback} */ handleSearch: () => {},
-    /** @type {nextCallback} */ handleNext: () => {},
+    /** @type {nextPageCallback} */ handleNextPage: () => {},
     /** @type {fetachCallback} */ handleFetch: () => {},
-    /** @type {boolean} */ next: true,
+    /** @type {number} */ nextPage: () => {},
   }
 );
 
@@ -47,11 +49,12 @@ const DataContext = createContext(
  *
  * @returns {DataContext}
  */
-const useData = () => {
+const useData = (page=1) => {
   const context = useContext(DataContext);
   if (!context) {
     throw new Error("useData must be used within a DataProvider");
   }
+
   return context;
 };
 export default useData;
@@ -67,6 +70,8 @@ const useDataContext = () => {
    */
   const [data, setData] = useState();
 
+  const [count, setCount] = useState();
+
   /**
    * @type {[boolean, React.Dispatch<boolean>]} state
    */
@@ -77,14 +82,16 @@ const useDataContext = () => {
    * */
   const [error, setError] = useState(null);
 
-  const [next, setNext] = useState(true);
+  const [nextPage, setNextPage] = useState(1);
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
   /**
    * @description Action handler for data. Should only be used by this hook.
    * @param {_BillModel[]} data - Data to set.
    * @param {boolean} loading - Loading state.
    * @param {string|null} error - Error message.
-   * @param {boolean} next  - Whether or not more data can be loaded.
+   * @param {number} nextPage  - Whether or not more data can be loaded.
    *
    * @returns {void}
    */
@@ -93,55 +100,59 @@ const useDataContext = () => {
      * @param {_BillModel[]} data
      * @param {boolean} loading
      * @param {string|null} error
-     * @param {boolean} next
-     */ (data = [], loading = false, error = null, next = false) => {
+     * @param {number} nextPage
+     */ (data = [], count = 0, loading = false, error = null, nextPage = 1) => {
       setData(data);
+      setCount(count);
       setLoading(loading);
       setError(error);
-      setNext(next);
+      setNextPage(nextPage);
+      setSearchParams({page: nextPage});
     },
-    [setData, setLoading, setError, setNext]
+    [setData, setLoading, setError, setNextPage]
   );
 
   const handleFetch = useCallback(async () => {
     // Begin loading, reset error.
-    handleAction(data, true, null, false);
-    const _data = await DataService.FetchData().catch(
+    handleAction(data, 0, true, null, 1);
+    const {data, count} = await DataService.FetchData().catch(
       /**
        * @param {Error} error
        * */
       (error) => {
         // Set error, stop loading.
-        handleAction(data, false, error.message, false);
+        handleAction(data, 0,false, error.message, 1);
       }
     );
     // Set data, stop loading.
     handleAction(
-      _data,
+      data,
+      count,
       false,
       null,
-      _data.length < DataService.increment ? false : true
+      1
     );
   }, [handleAction, data]);
 
-  const handleNext = useCallback(async () => {
+  const handleNextPage = useCallback(async (page = 1) => {
     // Begin loading, reset error.
     handleAction(data, true, null);
-    const _data = await DataService.Next().catch(
+    const {data: _data, count} = await DataService.NextPage(page).catch(
       /**
        * @param {Error} error
        * */
       (error) => {
         // Set error, stop loading.
-        handleAction(data, false, error.message);
+        handleAction(data, count, false, error.message);
       }
     );
     // Set data, stop loading.
     handleAction(
-      [...data, ..._data],
+      [..._data],
+      count,
       false,
       null,
-      _data.length > 0 ? true : false
+      page
     );
   }, [handleAction, data]);
 
@@ -159,7 +170,7 @@ const useDataContext = () => {
           return;
         }
         // Begin loading, reset error.
-        handleAction(data, true, null, false);
+        handleAction(data, true, null, 1);
 
         await DataService.Search(search)
           .then((data) => {
@@ -168,7 +179,7 @@ const useDataContext = () => {
               data,
               false,
               null,
-              data.length < DataService.increment ? false : true
+              1
             );
           })
           .catch(
@@ -177,7 +188,7 @@ const useDataContext = () => {
              */
             (error) => {
               // Catch the error if the server is not running, but set the data to most recent valid data.
-              handleAction(data, false, error.message, false);
+              handleAction(data, false, error.message, 1);
             }
           );
     },
@@ -190,15 +201,16 @@ const useDataContext = () => {
   useEffect(() => {
     if (data) return;
     // Begin loading, reset error.
-    handleAction(data, true, null, false);
+    handleAction(data, 0, true, null, 1);
     DataService.FetchData()
-      .then((data) => {
+      .then(({data, count}) => {
         // Set data, stop loading.
         handleAction(
           data,
+          count,
           false,
           null,
-          data.length < DataService.increment ? DataService.increment : true // If the data length is less than the increment, then we know that there is no more data to load.
+          1 // If the data length is less than the increment, then we know that there is no more data to load.
         );
       })
       .catch(
@@ -206,12 +218,12 @@ const useDataContext = () => {
          * @param {Error} error
          */ (error) => {
           // Catch the error if the server is not running, but set the data to most recent valid data.
-          handleAction(data, false, error.message, false);
+          handleAction(data, 0,false, error.message, 1);
         }
       );
   }, [data, handleAction]);
 
-  return { data, loading, error, next, handleSearch, handleNext, handleFetch };
+  return { data, count,loading, error, nextPage, handleSearch, handleNextPage, handleFetch };
 };
 
 /**
@@ -234,9 +246,9 @@ export { DataProvider, useData };
  * @property {boolean} loading
  * @property {string|null} error
  * @property {searchCallback} handleSearch
- * @property {nextCallback} handleNext
+ * @property {nextPageCallback} handleNextPage
  * @property {fetchCallback} handleFetch
- * @property {boolean} next
+ * @property {NextPage} nextPage
  */
 
 /**
@@ -245,7 +257,7 @@ export { DataProvider, useData };
  */
 
 /**
- * @callback nextCallback
+ * @callback nextPageCallback
  * @returns {void}
  */
 

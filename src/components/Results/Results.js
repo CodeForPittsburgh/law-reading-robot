@@ -43,7 +43,6 @@ const Results = (props) => {
           </div>
           <div className={S.container}>
             <h2 className={S.title}>Bills</h2>
-            <p className={S.total}>({filteredArticles.length} Results)</p>
           </div>
         </>
       ) : (

@@ -9,7 +9,7 @@ import {
   SearchProvider,
   Results,
   Footer,
-  Pagination
+  Pagination,
 } from "../../components";
 
 import { SearchClear } from "../../components/Search";
@@ -28,13 +28,13 @@ export const Home = () => {
       <FilterProvider>
         <Col md={3} className={S.sidebar}>
           <Row>
-            <Col>
-              <FilterContainer />
+            <Col className={S.search}>
+              <Search />
             </Col>
           </Row>
           <Row>
-            <Col className={S.search}>
-              <Search />
+            <Col>
+              <FilterContainer />
             </Col>
           </Row>
           <Row className={S.footerContainer}>

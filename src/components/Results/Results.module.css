@@ -27,8 +27,8 @@
 .tags {
   display: flex;
   flex-wrap: wrap;
-  margin-top: var(--space-lg);
   margin-bottom: var(--space-md);
+  padding-right: var(--space-md);
   gap: var(--space-sm);
   justify-content: flex-end;
 }

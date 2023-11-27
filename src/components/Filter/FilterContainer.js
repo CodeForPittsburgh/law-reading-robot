@@ -15,7 +15,6 @@ export const FilterContainer = () => {
   const { filter } = useFilter();
   return (
     <>
-      <h5 className={S.title}>Filters</h5>
       {filter &&
         filter?.map((category, i) => (
           <Accordion

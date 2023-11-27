@@ -11,7 +11,7 @@ li {
 
 .title {
   text-align: center;
-  margin-block: var(--space-md);
+  font-weight: 600;
 }
 
 .entry {
@@ -20,6 +20,8 @@ li {
   justify-content: flex-end;
   /** slightly lighter */
   border-top: var(--border-small);
+  padding-top: var(--space-xl);
+
 }
 
 .summary,
@@ -34,10 +36,12 @@ li {
   gap: 1rem;
   padding-top: var(--space-md);
   /* Border dashed top  with longer dashes*/
-  border-top: 4.5px dashed #ddd;
+
 }
 
 .details {
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1.5px dashed #e3e2e2;
+  padding-bottom: var(--space-md);
 }

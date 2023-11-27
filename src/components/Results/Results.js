@@ -50,7 +50,7 @@ const Results = (props) => {
       )}
       {filteredArticles.map((article, i) => {
         return (
-          <li key={`${article.billNumber}-${i}`}>
+          <li className={S.list} key={`${article.billNumber}-${i}`}>
             <Entry article={article} />
             <div className={S.tags}>
               {article.tags.map((tag, j) => (
@@ -60,15 +60,6 @@ const Results = (props) => {
           </li>
         );
       })}
-      {handleNext && next && (
-        <Button
-          variant={"outline-primary"}
-          className={S.button}
-          onClick={handleNext}
-        >
-          Load More
-        </Button>
-      )}
     </section>
   );
 };

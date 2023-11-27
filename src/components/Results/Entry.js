@@ -9,36 +9,36 @@ const Entry = (props) => {
 
   return (
     <article className={S.entry}>
-      <h5 className={S.title} data-bill-name={billNumber}>
-        {billNumber}
-      </h5>
-      <div className={S.summary}>
-        <h5>Summary:</h5>
-        <p className={S.text} data-bill-summary={summary}>
-          {summary}
-        </p>
-      </div>
       <div className={S.details}>
-        <h5 className={S.title}>Details:</h5>
-
+        <div className={S.billNumber}>
+          <span className={S.title}> Bill: </span>
+          <span data-bill-number={billNumber}>{billNumber}</span>
+        </div>
         <div className={S.sponsors}>
-          Sponsor{`${sponsors.length > 1 ? "s" : ""}`}:{" "}
+          <span className={S.title}>Sponsor{`${sponsors.length > 1 ? "s" : ""}`}:{" "}</span>
           {sponsors.slice(0, 1).map((sponsor, i) => (
-            <div
+            <span
               key={`${sponsor}-${i}-${article.billNumber}`}
               data-bill-sponsor={sponsor}
             >
               {sponsor}
-            </div>
+            </span>
           ))}
         </div>
         <div className={S.date}>
-          <span data-bill-status={pubDate}>Date: {pubDate.toDateString()}</span>
+          <span className={S.title}>Date: </span>
+          <span data-bill-status={pubDate}> {pubDate.toDateString()}</span>
         </div>
-        <Link data-bill-link={link} target="_blank" to={link}>
-          Full Text
-        </Link>
+
       </div>
+      <div className={S.summary}>
+        <span className={S.title}>Summary: </span>
+        <p className={S.text} data-bill-summary={summary}>
+          {summary} <Link data-bill-link={link} target="_blank" to={link}> read more
+        </Link>
+        </p>
+      </div>
+
     </article>
   );
 };

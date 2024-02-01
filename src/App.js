@@ -68,26 +68,6 @@ const MainAppContainer = () => {
 function App() {
   return (
     <MainAppContainer />
-    // <Router>
-    //     <div className="App">
-    //         <ContainerFluidExample/>
-    //
-    //         <ul>
-    //             {rssFiles.map(name => (
-    //                 <li key={name}>
-    //                     <Link to={`/${name}`}>{name}</Link>
-    //                 </li>
-    //             ))}
-    //         </ul>
-    //         <Routes>
-    //             {rssFiles.map(name => (
-    //                 <Route key={name} path={`/${name}`} element={<CsvTable filename={name} />} />
-    //             ))}
-    //         </Routes>
-    //
-    //         {/*<CsvTable/>*/}
-    //     </div>
-    // </Router>
   );
 }
 

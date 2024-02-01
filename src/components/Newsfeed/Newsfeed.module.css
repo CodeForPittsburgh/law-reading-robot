@@ -1,0 +1,6 @@
+.scrollable_container {
+    max-height: 400px; /* Set the desired maximum height for the container */
+    overflow-y: auto; /* Add vertical scroll when content overflows */
+    border: 1px solid #ccc; /* Add a border for better visualization */
+    padding: 10px; /* Add some padding for spacing */
+}

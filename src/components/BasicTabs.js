@@ -7,6 +7,7 @@ import { Tabs, Tab, Box, Typography } from "@mui/material";
 
 import { Home } from "../pages";
 import S from "./BasicTabs.module.css";
+import Newsfeed from "./Newsfeed/Newsfeed";
 
 //TabPanel, a11yProps, and BasicTabs are boilerplate from MUI used to make tabs in the app
 function TabPanel(props) {
@@ -194,8 +195,7 @@ function BasicTabs() {
         <Container>
           <Row>
             <Col>
-              {/* <BillsFromDB /> */}
-              <p>Mike can help you get this tab set up.</p>
+              <Newsfeed />
             </Col>
           </Row>
         </Container>

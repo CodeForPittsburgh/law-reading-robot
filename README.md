@@ -50,6 +50,12 @@ The following scripts are available for you to run:
    ```
    **Note: `eject` is a one-way operation. Once you `eject`, you can't go back!** If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command removes the single build dependency from your project, providing you full control over the build tool configuration.
 
+6. **Deploy to Github Pages**
+    ```
+    npm run deploy
+    ```
+    This script deploys the app to Github Pages. More information about deployment can be found [here](https://facebook.github.io/create-react-app/docs/deployment).
+
 ## Additional Resources
 
 - [Create React App Documentation](https://facebook.github.io/create-react-app/docs/getting-started)

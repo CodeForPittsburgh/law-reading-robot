@@ -1,66 +1,81 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { createClient } from "@supabase/supabase-js";
 import css from "./Newsfeed.module.css";
+
 const supabase = createClient(
-    "https://vsumrxhpkzegrktbtcui.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzdW1yeGhwa3plZ3JrdGJ0Y3VpIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ3OTU2NzUsImV4cCI6MjAwMDM3MTY3NX0.9lafalZT9FJW1D8DAuIMrsRX0Gs6204nV8ETfGslrqI");
-
-
-// Newsfeed component
+    process.env.REACT_APP_SUPABASE_URL,
+    process.env.REACT_APP_SUPABASE_ANON_KEY
+);
 
 const Newsfeed = () => {
-    // State to hold the newsfeed data
     const [newsfeed, setNewsfeed] = useState([]);
-    // State to hold the loading status
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const [page, setPage] = useState(0);
+    const [perPage] = useState(20);
+    const [hasMore, setHasMore] = useState(true);
+    const scrollableContainerRef = useRef(null); // Ref for the container
 
     async function fetchNewsfeed() {
-        // Fetch the newsfeed data from the database
-        const { data, error } = await supabase
+        if (!hasMore || loading) return; // Stop fetching if no more data or already loading
+        setLoading(true);
+        const start = page * perPage;
+        const { data, error, count } = await supabase
             .from("revisions_feed_view")
-            .select("*")
+            .select("*", { count: 'exact' })
+            .range(start, start + perPage - 1);
 
         if (error) {
             console.error(error);
+            setLoading(false);
             return;
         }
 
-        // Set the newsfeed data in the state
-        setNewsfeed(data);
-        // Set the loading status to false
+        setNewsfeed((prevNewsfeed) => [...prevNewsfeed, ...data]);
+        setPage(page + 1);
         setLoading(false);
+        setHasMore(count > start + data.length);
     }
 
-    // Fetch the newsfeed data when the component mounts
     useEffect(() => {
         fetchNewsfeed();
+        // eslint-disable-next-line
     }, []);
 
-    // Render the newsfeed data
+    useEffect(() => {
+        const scrollableContainer = scrollableContainerRef.current;
+        const handleScroll = () => {
+            if (!scrollableContainer) return;
+            const { scrollTop, scrollHeight, clientHeight } = scrollableContainer;
+            if (scrollTop + clientHeight >= scrollHeight - 5) { // Adjust as needed
+                fetchNewsfeed();
+            }
+        };
+
+        scrollableContainer.addEventListener('scroll', handleScroll);
+        return () => scrollableContainer.removeEventListener('scroll', handleScroll);
+    }, [newsfeed, loading]); // Include loading in dependencies
+
     return (
         <div>
             <h1>Newsfeed</h1>
-            <div className={css.scrollable_container}>
-                {loading ? (
-                    <p>Loading...</p>
-                ) : (
-                    <ul>
-                        {newsfeed.map((item) => (
-                            <li key={item.revision_guid}>
-                                <h3>
-                                    <a href={item.full_text_link} target="_blank" rel="noreferrer">
-                                        {item.revision_guid}
-                                    </a>
-                                </h3>
-                                <p>{item.summary_text}</p>
-                            </li>
-                        ))}
-                    </ul>
-                )}
+            <div ref={scrollableContainerRef} className={css.scrollable_container}>
+                {loading && <p>Loading...</p>}
+                <ul>
+                    {newsfeed.map((item) => (
+                        <li key={item.revision_guid}>
+                            <h3>
+                                <a href={item.full_text_link} target="_blank" rel="noreferrer">
+                                    {item.revision_guid}
+                                </a>
+                            </h3>
+                            <p>{item.summary_text}</p>
+                        </li>
+                    ))}
+                </ul>
+                {hasMore && !loading && <p>Loading more...</p>}
             </div>
-
         </div>
     );
-}
+};
 
 export default Newsfeed;

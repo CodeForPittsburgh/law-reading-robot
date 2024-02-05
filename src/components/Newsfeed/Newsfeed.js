@@ -3,8 +3,8 @@ import { createClient } from "@supabase/supabase-js";
 import css from "./Newsfeed.module.css";
 
 const supabase = createClient(
-    process.env.REACT_APP_SUPABASE_URL,
-    process.env.REACT_APP_SUPABASE_ANON_KEY
+    "https://vsumrxhpkzegrktbtcui.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzdW1yeGhwa3plZ3JrdGJ0Y3VpIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ3OTU2NzUsImV4cCI6MjAwMDM3MTY3NX0.9lafalZT9FJW1D8DAuIMrsRX0Gs6204nV8ETfGslrqI"
 );
 
 const Newsfeed = () => {

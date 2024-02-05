@@ -2,7 +2,7 @@
 
 This is the frontend for the Law Reading Robot app, a part of the Code For Pittsburgh initiative. The backend code can be found at the partner repo: [https://github.com/CodeForPittsburgh/law-reading-robot-data/tree/master](https://github.com/CodeForPittsburgh/law-reading-robot-data/tree/master).
 
-To view the website itself, go [here](https://github.io/CodeForPittsburgh/law-reading-robot).
+To view the website itself, go [here](https://codeforpittsburgh.github.io/law-reading-robot/).
 
 ## Getting Started
 

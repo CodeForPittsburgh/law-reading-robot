@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link, Route, Routes } from "react-router-dom";
-import { rssFiles } from "../Data";
+
 
 import { Container, Row, Col } from "react-bootstrap";
 import { Tabs, Tab, Box, Typography } from "@mui/material";
 
 import { Home } from "../pages";
-import S from "./BasicTabs.module.css";
 import Newsfeed from "./Newsfeed/Newsfeed";
 
 //TabPanel, a11yProps, and BasicTabs are boilerplate from MUI used to make tabs in the app
@@ -37,62 +35,6 @@ function a11yProps(index) {
   };
 }
 
-const SimpleBillTable = () => {
-  return (
-    <>
-      <ul>
-        {rssFiles.map((name) => (
-          <li key={name}>
-            <Link to={`/${name}`}>{name}</Link>
-          </li>
-        ))}
-      </ul>
-      {/*  This breaks if loaded too slowly. */}
-      <Routes>
-        {[rssFiles?.[0]].map((name) => (
-          <Route
-            key={name}
-            path={`/${name}`}
-            element={<CsvTable filename={name} />}
-          />
-        )) || <Route path="*" element={<h1>404: Page not found</h1>} />}
-      </Routes>
-    </>
-  );
-};
-
-function CsvTable({ filename }) {
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const csvFile = require(`../assets/csvs/${filename}.csv`);
-      const response = await fetch(csvFile);
-      const text = await response.text();
-      const rows = text.split("\n");
-      // Rows and headers are pipe-delimited, per how they are stored in the repo
-      const headers = rows[0].split("|");
-      const rowsData = rows.slice(1).map((row) => row.split("|"));
-      const newData = rowsData.map((row) =>
-        headers.reduce((obj, key, index) => {
-          obj[key] = row[index];
-          return obj;
-        }, {})
-      );
-      setData(newData);
-      setLoading(false);
-    };
-
-    fetchData();
-  }, [filename]);
-
-  return (
-    <div>
-      {loading ? <p>Loading...</p> : <Table filename={filename} data={data} />}
-    </div>
-  );
-}
 
 //A component that takes a filename and an array of data, and creates a table with the data
 function Table({ filename, data }) {
@@ -170,8 +112,7 @@ function BasicTabs() {
           centered
         >
           <Tab label="Prototype" {...a11yProps(0)} />
-          <Tab label="Rss Data" {...a11yProps(1)} />
-          <Tab label="Supabase Data" {...a11yProps(2)} />
+          <Tab label="Supabase Data" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -182,16 +123,6 @@ function BasicTabs() {
         </Container>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Container className={S.container}>
-          <Row>
-            <Col>
-              <SimpleBillTable />
-              {/* <Link to="/results">Results</Link> */}
-            </Col>
-          </Row>
-        </Container>
-      </TabPanel>
-      <TabPanel value={value} index={2}>
         <Container>
           <Row>
             <Col>
